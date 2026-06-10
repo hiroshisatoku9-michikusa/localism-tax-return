@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ローカリズム確定申告書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+:root{
+  --bg:#faf5ec; --card:#fffdf8; --paper:#fffcf4;
+  --ink:#3a4540; --sub:#7c8680;
+  --sea:#0e8a6b; --sea-deep:#0a6a52; --sea-pale:#e3f2ec; --sea-line:#bfe0d4;
+  --coral:#e07a5f; --coral-pale:#fbeae4;
+  --sand:#ece1cc; --sun:#f2b84b;
+  --shadow:0 1px 0 rgba(60,50,30,.06), 0 4px 14px rgba(60,50,30,.06);
+  --r:2px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
+.ic{width:1.05em;height:1.05em;vertical-align:-0.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic.lg{width:30px;height:30px;display:block;margin:0 auto 8px;color:var(--sea)}
+header.app{padding:30px 20px 8px;text-align:center}
+header.app .eyebrow{font-size:11px;letter-spacing:.42em;color:var(--coral);font-weight:700;margin-bottom:2px}
+header.app h1{font-size:26px;margin:0;letter-spacing:.12em;color:var(--sea-deep);font-weight:900}
+header.app .tagline{font-size:13px;color:var(--sub);margin-top:6px;letter-spacing:.05em}
+header.app .badges{margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{font-size:11.5px;background:var(--sea-pale);color:var(--sea-deep);border-radius:var(--r);padding:3px 14px}
+.badge.coral{background:var(--coral-pale);color:#b05438}
+.wrap{max-width:1040px;margin:0 auto;padding:14px 16px 60px}
+/* steps */
+.steps{display:flex;gap:8px;margin:14px 0 22px;flex-wrap:wrap;justify-content:center}
+.steps button{border:none;background:var(--card);box-shadow:var(--shadow);padding:9px 18px;border-radius:var(--r);cursor:pointer;font-size:13px;color:var(--ink);font-family:inherit;transition:.15s}
+.steps button:hover{transform:translateY(-1px)}
+.steps button.active{background:var(--sea);color:#fff;font-weight:700}
+.panel{display:none;background:var(--card);border-radius:var(--r);padding:26px 26px 22px;box-shadow:var(--shadow)}
+.panel.show{display:block}
+.panel h2{margin:0 0 4px;font-size:18px;color:var(--sea-deep)}
+.panel p.lead{margin:4px 0 16px;font-size:13.5px;color:var(--sub)}
+.note{background:var(--sea-pale);border-radius:var(--r);padding:12px 16px;font-size:12.5px;margin:12px 0}
+.warn-note{background:var(--coral-pale);border-radius:var(--r);padding:12px 16px;font-size:12.5px;margin:12px 0;color:#8a4a32}
+/* buttons */
+.btn{background:var(--sea);color:#fff;border:none;border-radius:var(--r);padding:11px 26px;font-size:14px;cursor:pointer;font-weight:700;font-family:inherit;box-shadow:var(--shadow);transition:.15s}
+.btn:hover{background:var(--sea-deep);transform:translateY(-1px)}
+.btn.sub{background:var(--card);color:var(--sea-deep);border:1.5px solid var(--sea-line)}
+.btn.coral{background:var(--coral)}
+.btn:disabled{background:#b9c4be;cursor:not-allowed;transform:none}
+.btnrow{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+/* drop zones */
+.drop{border:2px dashed var(--sea-line);border-radius:var(--r);padding:30px 20px;text-align:center;cursor:pointer;background:var(--paper);transition:.15s;font-size:14px}
+.drop.drag{background:var(--sea-pale);border-color:var(--sea)}
+.drop .big{font-size:32px;display:block;margin-bottom:4px}
+.drop b{color:var(--sea-deep)}
+.drop .small{font-size:11.5px;color:var(--sub);display:block;margin-top:4px}
+/* page cards (redaction) */
+#pageList{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+.pageCard{border:1px solid var(--sand);border-radius:var(--r);padding:14px;display:flex;gap:16px;flex-wrap:wrap;background:var(--paper)}
+.pageCard canvas{border-radius:var(--r);max-width:400px;height:auto;display:block;cursor:crosshair;box-shadow:var(--shadow)}
+.pageCard .meta{flex:1;min-width:230px;font-size:13px}
+.pageCard select{padding:7px 10px;border-radius:var(--r);border:1.5px solid var(--sand);font-size:13px;max-width:100%;font-family:inherit;background:#fff}
+.zoneList{list-style:none;padding:0;margin:10px 0}
+.zoneList li{display:flex;align-items:center;gap:7px;padding:3px 0;font-size:12.5px}
+.zoneList li button.del{border:none;background:var(--coral-pale);color:#a04a30;border-radius:var(--r);cursor:pointer;font-size:11px;padding:2px 9px;font-family:inherit}
+/* forms */
+table.inp{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+table.inp th,table.inp td{border-bottom:1px solid var(--sand);padding:7px 10px;text-align:left;font-weight:400}
+table.inp th{color:var(--ink);width:42%}
+table.inp input[type=number]{width:150px;padding:7px 10px;border:1.5px solid var(--sand);border-radius:var(--r);text-align:right;font-size:14px;font-family:inherit;background:#fff}
+table.inp input[type=text]{width:160px;padding:7px 10px;border:1.5px solid var(--sand);border-radius:var(--r);font-size:13px;font-family:inherit;background:#fff}
+.subhead{font-size:14.5px;font-weight:700;color:var(--sea-deep);margin:22px 0 8px}
+.csvSummary{display:none;background:var(--sea-pale);border-radius:var(--r);padding:14px 18px;font-size:13px;margin-top:14px}
+.csvSummary b{color:var(--sea-deep)}
+/* interview cards */
+.qCard{border:1px solid var(--sand);border-radius:var(--r);padding:16px 20px;margin-bottom:14px;background:var(--paper)}
+.qCard .qhead{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+.qCard .qname{font-weight:700;font-size:15px;color:var(--sea-deep)}
+.qCard .qamt{font-size:12.5px;color:var(--sub)}
+.qCard .qtext{font-size:13.5px;margin:8px 0 4px}
+.qCard .qhint{font-size:12px;color:var(--sub);margin-bottom:6px}
+.txRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:7px 10px;border-radius:var(--r);background:#fff;margin:6px 0;font-size:12.5px;border:1px solid var(--sand)}
+.txRow .txinfo{flex:1;min-width:140px}
+.txRow .txamt{font-weight:700;font-variant-numeric:tabular-nums}
+.txBtns{display:flex;gap:5px}
+.txBtns button{border:1.5px solid var(--sand);background:#fff;border-radius:var(--r);padding:3px 12px;cursor:pointer;font-size:11.5px;font-family:inherit;transition:.1s}
+.txBtns button.selIn{background:var(--sea);border-color:var(--sea);color:#fff;font-weight:700}
+.txBtns button.selExt{background:var(--coral);border-color:var(--coral);color:#fff;font-weight:700}
+.sliderBlock{margin-top:10px}
+.sliderBlock .slabel{font-size:12.5px;color:var(--sub);margin-bottom:2px}
+.qCard input[type=range]{width:100%;accent-color:var(--sea)}
+.pct{font-size:12.5px;display:flex;justify-content:space-between}
+.pctIn{color:var(--sea-deep);font-weight:700}
+.pctOut{color:var(--coral);font-weight:700}
+.chips{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.chips button{font-size:11.5px;border:1.5px solid var(--sea-line);background:#fff;border-radius:var(--r);padding:3px 12px;cursor:pointer;font-family:inherit}
+.chips button:hover{background:var(--sea-pale)}
+/* AI assist */
+details.ai{border:1.5px dashed var(--sea-line);border-radius:var(--r);padding:12px 18px;margin-bottom:18px;background:#fff;font-size:13px}
+details.ai summary{cursor:pointer;font-weight:700;color:var(--sea-deep)}
+details.ai input[type=password]{width:min(360px,100%);padding:8px 12px;border:1.5px solid var(--sand);border-radius:var(--r);font-size:13px;font-family:inherit}
+#aiStatus{font-size:12.5px;margin-top:8px}
+/* params */
+.paramBlock{margin-bottom:20px;background:var(--paper);border:1px solid var(--sand);border-radius:var(--r);padding:16px 20px}
+.paramBlock label.title{font-weight:700;font-size:14px;display:block;margin-bottom:2px;color:var(--sea-deep)}
+.paramBlock .desc{font-size:12.5px;color:var(--sub);margin-bottom:8px}
+.paramBlock input[type=range]{width:100%;accent-color:var(--sea)}
+.paramBlock input[type=text]{padding:8px 12px;border:1.5px solid var(--sand);border-radius:var(--r);font-size:14px;font-family:inherit}
+/* ===== report ===== */
+#report{display:none;margin-top:18px}
+.sheet{background:var(--paper);border:2px solid var(--sea);padding:26px 30px;max-width:860px;margin:0 auto;color:#27433a;box-shadow:var(--shadow)}
+.sheet .formhead{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px double var(--sea);padding-bottom:10px;flex-wrap:wrap;gap:8px}
+.sheet .formhead h3{margin:0;font-size:22px;letter-spacing:.08em;color:var(--sea-deep)}
+.sheet .formhead .era{font-size:12.5px;color:var(--sub)}
+.sheet .formhead .fa{border:1.5px solid var(--sea);padding:2px 12px;font-size:12px;color:var(--sea-deep)}
+.sheet h4.sec{background:var(--sea);color:#fff;font-size:13px;margin:20px 0 0;padding:6px 14px;letter-spacing:.18em}
+table.form{width:100%;border-collapse:collapse;font-size:13px}
+table.form th,table.form td{border:1px solid var(--sea-line);padding:6px 12px}
+table.form th{background:#eef7f2;font-weight:500;text-align:left;width:46%;color:#1d5547}
+table.form td.num{text-align:right;font-variant-numeric:tabular-nums;font-size:14px}
+table.form td.num.big{font-size:17px;font-weight:700}
+.gauge{margin:14px 0}
+.gaugeBar{height:28px;border-radius:var(--r);overflow:hidden;display:flex;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
+.gaugeBar .gIn{background:var(--sea);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+.gaugeBar .gOut{background:var(--coral);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+.gauge .cap{font-size:11.5px;color:var(--sub);margin-top:3px}
+.bigScore{display:flex;gap:14px;margin:18px 0;flex-wrap:wrap;align-items:center}
+.scoreCard{flex:1;min-width:170px;border-radius:var(--r);padding:14px;text-align:center;background:#fff;box-shadow:var(--shadow)}
+.scoreCard .t{font-size:12px;color:var(--sea-deep);font-weight:700}
+.scoreCard .v{font-size:26px;font-weight:700;color:var(--sea-deep);font-variant-numeric:tabular-nums}
+.scoreCard .u{font-size:10.5px;color:var(--sub)}
+.scoreCard.neg .v{color:var(--coral)}
+.stamp{border:2.5px solid var(--coral);color:var(--coral);border-radius:50%;width:96px;height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;transform:rotate(-8deg);opacity:.9;text-align:center;line-height:1.35;flex-shrink:0}
+.sheet .foot{font-size:10.5px;color:var(--sub);margin-top:16px;border-top:1px solid var(--sea-line);padding-top:10px}
+@media print{
+  body *{visibility:hidden}
+  #report,#report *{visibility:visible}
+  #report{position:absolute;top:0;left:0;width:100%;display:block}
+  .noprint{display:none!important}
+}
+</style>
+</head>
+<body>
+<header class="app">
+  <div class="eyebrow">LOCALISM TAX RETURN</div>
+  <h1>ローカリズム確定申告書</h1>
+  <div class="tagline">あなたのお金は、どれだけ島をめぐった？ — 1年間の経済活動を、地域とのつながりで読みなおす</div>
+  <div class="badges">
+    <span class="badge"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ぜんぶブラウザの中だけで動きます</span>
+    <span class="badge coral">プロトタイプ</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="steps noprint">
+    <button data-step="1" class="active"><svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 申告書をよみこむ</button>
+    <button data-step="2"><svg class="ic" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> 収支データを入れる</button>
+    <button data-step="3"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> お金の行き先</button>
+    <button data-step="4"><svg class="ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> ものさしを決める</button>
+    <button data-step="5"><svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> できあがり</button>
+  </div>
+
+  <!-- ============ STEP 1 ============ -->
+  <section class="panel show" id="panel1">
+    <h2>確定申告書をよみこむ（自動で黒塗りします）</h2>
+    <p class="lead">e-Taxで出力した確定申告書のPDFを、ぽんと入れてください。名前・住所・マイナンバー・口座番号・家族や従業員のお名前といったプライベートな情報は、<b>読み込んだその場で自動的に黒塗り</b>します。</p>
+    <div class="note"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> このアプリにはサーバーがありません。PDFはあなたのブラウザの中だけで処理され、<b>どこにも送信されません</b>。</div>
+    <div class="drop" id="drop">
+      <svg class="ic lg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      ここに確定申告書のPDFをドラッグ＆ドロップ<br>または<b>クリックしてファイルを選ぶ</b>
+      <span class="small">対応：確定申告書 第一表・第二表・第三表/第四表・青色申告決算書</span>
+      <input type="file" id="fileInput" accept="application/pdf" style="display:none">
+    </div>
+    <div id="pdfStatus" style="margin-top:10px;font-size:13px;color:var(--sub)"></div>
+    <div id="pageList"></div>
+    <div class="btnrow" id="step1btns" style="display:none">
+      <button class="btn sub" id="exportRedacted"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 黒塗り済みPDFを保存する</button>
+      <button class="btn" onclick="gotoStep(2)">つぎへ：収支データを入れる →</button>
+    </div>
+    <div class="warn-note" id="manualHint" style="display:none"><svg class="ic" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg> 黒塗りが足りないところは、ページの画像の上を<b>そのままドラッグ</b>すると塗り足せます。各ゾーンはチェックで外せます。書類の種類がちがっていたらプルダウンで直してくださいね。</div>
+  </section>
+
+  <!-- ============ STEP 2 ============ -->
+  <section class="panel" id="panel2">
+    <h2>収支データを入れる</h2>
+    <p class="lead">会計ソフト（freeeなど）から書き出した取引データ（CSV）があれば、それを入れるだけで金額が自動で埋まります。なければ、決算書を見ながら手で入れてもOKです。</p>
+    <div class="drop" id="csvDrop">
+      <svg class="ic lg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      取引データのCSVをドラッグ＆ドロップ<br>または<b>クリックしてファイルを選ぶ</b>
+      <span class="small">freee形式（収支区分・勘定科目・金額…）に対応。Shift-JISでもUTF-8でも大丈夫</span>
+      <input type="file" id="csvInput" accept=".csv,text/csv" style="display:none">
+    </div>
+    <div class="csvSummary" id="csvSummary"></div>
+    <div class="subhead">収入</div>
+    <table class="inp">
+      <tr><th>1年間の売上（収入）の合計</th><td><input type="number" id="incomeTotal" min="0" placeholder="例: 4466105"> 円</td></tr>
+      <tr><th>そのほかの収入（雑収入・家事消費など）</th><td><input type="number" id="incomeOther" min="0" placeholder="0"> 円</td></tr>
+    </table>
+    <div class="subhead">経費（決算書の科目ごと）</div>
+    <table class="inp" id="expenseTable"></table>
+    <div class="subhead">参考（ふつうの所得の計算に使います）</div>
+    <table class="inp">
+      <tr><th>青色申告特別控除額</th><td><input type="number" id="aoiroDeduction" min="0" placeholder="650000"> 円</td></tr>
+    </table>
+    <div class="btnrow">
+      <button class="btn sub" onclick="gotoStep(1)">← もどる</button>
+      <button class="btn" onclick="gotoStep(3)">つぎへ：お金の行き先をきく →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 3 ============ -->
+  <section class="panel" id="panel3">
+    <h2>お金の行き先をきかせてください</h2>
+    <p class="lead">それぞれのお金が「島のお店や人」に向かったのか、「島の外や全国チェーン」に向かったのか。帳簿に支払先が残っていなくても大丈夫、<b>だいたいの感覚で</b>答えてください。金額の大きい支払いだけ、個別にきいています。<span style="color:var(--sub);font-size:12px">（AIが質問を手伝ってくれる機能は、今後のアップデートで追加予定です）</span></p>
+
+    <div class="subhead"><svg class="ic" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg> 入ってきたお金</div>
+    <div id="incomeAlloc"></div>
+    <div class="subhead"><svg class="ic" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg> 出ていったお金</div>
+    <div id="expenseAlloc"></div>
+    <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> まよったら：仕入先が島の商店なら「島内」、Amazonや本土の問屋なら「島外」。給料はスタッフが島の人なら「島内」。半々ならスライダーを真ん中へ。</div>
+    <div class="btnrow">
+      <button class="btn sub" onclick="gotoStep(2)">← もどる</button>
+      <button class="btn" onclick="gotoStep(4)">つぎへ：ものさしを決める →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 4 ============ -->
+  <section class="panel" id="panel4">
+    <h2>ものさしを決める</h2>
+    <p class="lead">島の中で使われたお金は、めぐりめぐってまた誰かの収入になります。その「めぐる力」をどれくらい大きく見るか、あなたのものさしで決めてください。</p>
+    <div class="paramBlock">
+      <label class="title">あなたの島・地域の名前</label>
+      <input type="text" id="regionName" value="石垣島">
+    </div>
+    <div class="paramBlock">
+      <label class="title">島のお店に払ったお金は、<span id="alphaVal" class="pctIn">90</span>% 島に残るとみなす</label>
+      <div class="desc">島のお店に払った10,000円のうち、「島から出ていった」と数えるのは1,000円だけ。残りの9,000円は島の中をめぐっていく、という考え方です。</div>
+      <input type="range" id="alpha" min="0" max="100" step="5" value="90">
+    </div>
+    <div class="paramBlock">
+      <label class="title">島の中からもらったお金は、<span id="betaVal" class="pctIn">90</span>% 減らして数える</label>
+      <div class="desc">島のお客さんからの売上は「島の中でお金が動いただけ」。いっぽう観光客や島外のお客さんからの売上は、島に新しいお金を連れてきた「外貨」なので100%数えます。</div>
+      <input type="range" id="beta" min="0" max="100" step="5" value="90">
+    </div>
+    <div class="paramBlock">
+      <label class="title">減価償却費のあつかい</label>
+      <div class="desc">減価償却費は、今年お金が出ていったわけではない帳簿上の経費です。</div>
+      <label style="font-size:13px"><input type="radio" name="depMode" value="exclude" checked> 島の外への流出には数えない（おすすめ）</label><br>
+      <label style="font-size:13px"><input type="radio" name="depMode" value="include"> ほかの経費と同じように数える</label>
+    </div>
+    <div class="btnrow">
+      <button class="btn sub" onclick="gotoStep(3)">← もどる</button>
+      <button class="btn coral" onclick="gotoStep(5);generateReport()">ローカリズム確定申告書をつくる →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 5 ============ -->
+  <section class="panel" id="panel5">
+    <h2>できあがり</h2>
+    <div class="btnrow noprint" style="margin:4px 0 14px">
+      <button class="btn" onclick="generateReport()"><svg class="ic" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> つくりなおす</button>
+      <button class="btn sub" onclick="downloadReport()"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> HTMLで保存</button>
+      <button class="btn sub" onclick="window.print()"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> 印刷する</button>
+      <button class="btn sub" onclick="gotoStep(4)">← ものさしにもどる</button>
+    </div>
+    <div id="report"></div>
+  </section>
+</div>
+
+<script>
+/* ================================================================
+   ローカリズム確定申告書 — プロトタイプ v2
+   すべての処理はブラウザ内で完結（PDF/CSVはどこにも送信されない）
+   AIアシストは任意。送信されるのは科目名・金額・品目メモのみ。
+================================================================ */
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+/* ---------- 帳票タイプと自動墨消しゾーン（ページ比率 x,y,w,h） ---------- */
+const FORM_TYPES = {
+  daiichi:  {label:"申告書 第一表"},
+  daini:    {label:"申告書 第二表"},
+  daisan4:  {label:"申告書 第三表／第四表"},
+  kessanP1: {label:"青色申告決算書 P1（損益計算書)"},
+  kessanP2: {label:"青色申告決算書 P2（月別売上等）"},
+  kessanP3: {label:"青色申告決算書 P3（売上先・仕入先等）"},
+  kessanP4: {label:"青色申告決算書 P4（貸借対照表）"},
+  other:    {label:"その他（添付台紙など）"}
+};
+const REDACT_PRESETS = {
+  daiichi: [
+    {label:"税務署名・住所・氏名・フリガナ・個人番号", x:.02, y:.012, w:.62, h:.155},
+    {label:"整理番号・電話番号など", x:.64, y:.035, w:.34, h:.055},
+    {label:"還付される税金の受取口座（金融機関名含む）", x:.50, y:.815, w:.48, h:.15},
+    {label:"税理士署名欄", x:.02, y:.92, w:.34, h:.065}
+  ],
+  daini: [
+    {label:"住所・屋号・氏名", x:.02, y:.015, w:.65, h:.105},
+    {label:"所得の内訳（支払者の名称等）", x:.02, y:.175, w:.42, h:.15},
+    {label:"配偶者・親族に関する事項（氏名・個人番号）", x:.02, y:.50, w:.70, h:.25},
+    {label:"事業専従者に関する事項（氏名）", x:.02, y:.75, w:.70, h:.09}
+  ],
+  daisan4: [
+    {label:"住所・氏名", x:.02, y:.02, w:.56, h:.06}
+  ],
+  kessanP1: [
+    {label:"住所・氏名・電話・依頼税理士等", x:.01, y:.015, w:.40, h:.17},
+    {label:"整理番号", x:.83, y:.015, w:.16, h:.07}
+  ],
+  kessanP2: [
+    {label:"氏名", x:.04, y:.01, w:.26, h:.07},
+    {label:"給料賃金の内訳（従業員氏名）", x:.38, y:.02, w:.61, h:.27},
+    {label:"専従者給与の内訳（氏名）", x:.38, y:.29, w:.61, h:.18},
+    {label:"地代家賃等の支払先（住所・氏名）", x:.37, y:.48, w:.32, h:.27}
+  ],
+  kessanP3: [
+    {label:"税理士・弁護士等の報酬（支払先住所氏名）", x:.01, y:.88, w:.98, h:.11}
+  ],
+  kessanP4: [],
+  other: []
+};
+
+/* ---------- 経費科目 ---------- */
+const EXPENSE_CATS = [
+  {key:"shiire",   name:"仕入（売上原価）"},
+  {key:"sozei",    name:"租税公課"},
+  {key:"nizukuri", name:"荷造運賃"},
+  {key:"suido",    name:"水道光熱費"},
+  {key:"ryohi",    name:"旅費交通費"},
+  {key:"tsushin",  name:"通信費"},
+  {key:"koukoku",  name:"広告宣伝費"},
+  {key:"settai",   name:"接待交際費"},
+  {key:"songai",   name:"損害保険料"},
+  {key:"shuzen",   name:"修繕費"},
+  {key:"shomo",    name:"消耗品費"},
+  {key:"genka",    name:"減価償却費", dep:true},
+  {key:"fukuri",   name:"福利厚生費"},
+  {key:"kyuryo",   name:"給料賃金"},
+  {key:"gaichu",   name:"外注工賃"},
+  {key:"rishi",    name:"利子割引料"},
+  {key:"chidai",   name:"地代家賃"},
+  {key:"kashidaore",name:"貸倒金"},
+  {key:"zappi",    name:"雑費"}
+];
+/* freee等の勘定科目 → アプリ内キー */
+const KAMOKU_MAP = {
+  "売上高":"__income", "雑収入":"__incomeOther", "家事消費":"__incomeOther",
+  "仕入高":"shiire", "仕入":"shiire",
+  "租税公課":"sozei", "荷造運賃":"nizukuri", "水道光熱費":"suido",
+  "旅費交通費":"ryohi", "通信費":"tsushin", "広告宣伝費":"koukoku",
+  "接待交際費":"settai", "交際費":"settai",
+  "損害保険料":"songai", "保険料":"songai",
+  "修繕費":"shuzen", "消耗品費":"shomo", "減価償却費":"genka",
+  "福利厚生費":"fukuri", "給料賃金":"kyuryo", "給与":"kyuryo",
+  "外注費":"gaichu", "外注工賃":"gaichu",
+  "利子割引料":"rishi", "支払利息":"rishi",
+  "地代家賃":"chidai", "貸倒金":"kashidaore", "雑費":"zappi",
+  "事業主貸":"__skip", "事業主借":"__skip"
+};
+/* 科目ごとのデフォルト質問文 */
+const CAT_QUESTIONS = {
+  shiire:  "仕入はどこから？ 島の商店や生産者さんなら「島内」、本土の問屋さんやネット仕入れなら「島外」です。",
+  tsushin: "スマホやネット回線の契約先はどこですか？ 大手キャリアはだいたい「島外」です。",
+  suido:   "電気・水道・ガス。地域の公営や島の会社なら「島内」寄りです。",
+  chidai:  "お店や倉庫の大家さんは、島の方ですか？",
+  kyuryo:  "お給料を払っているスタッフは、島で暮らしている人ですか？",
+  gaichu:  "外注先は島の職人さん・事業者さん？ それとも島外のフリーランスや会社？",
+  ryohi:   "移動や出張の交通費。島内のタクシー・バス・ガソリンなら「島内」、飛行機や本土での移動は「島外」です。",
+  settai:  "会食やおつきあいの場所は、島の飲食店が多いですか？",
+  shomo:   "こまごました買い物。島の商店・ホームセンターなら「島内」、Amazonや全国チェーンなら「島外」です。",
+  koukoku: "広告はどこに出しましたか？ 島のフリーペーパーなら「島内」、Web広告は「島外」です。",
+  songai:  "保険の窓口が島の代理店でも、保険会社そのものは島外のことが多いです。",
+  sozei:   "税金や組合費。市町村や島の組合に払ったものは「島内」と考えてOKです。"
+};
+const INCOME_QUESTION = "売上はどこから来ましたか？ 観光客・島外の取引先・ネット販売は「島の外から」。島の人やお店からの売上は「島の中から」です。";
+
+const state = {
+  pages: [],
+  alloc: {},               // catKey -> 島内%（残り分スライダー）
+  txByCat: {},             // catKey -> [{d,a,m}] 取引明細
+  txChoice: {},            // catKey -> {txIndex: 'in'|'ext'}
+  incomeTx: [],            // 収入明細
+  incomeTxChoice: {},
+  incomeOutsideRatio: 70,  // 残り分の島外%
+  dynCats: [],             // CSV由来の追加科目 [{key,name}]
+  aiQ: null                // AIが作った質問 {catKey:{question,hint}, __income:{...}}
+};
+
+/* ================= STEP NAV ================= */
+function gotoStep(n){
+  document.querySelectorAll(".steps button").forEach(b=>b.classList.toggle("active", b.dataset.step==n));
+  for(let i=1;i<=5;i++) document.getElementById("panel"+i).classList.toggle("show", i===n);
+  if(n===3) buildInterview();
+  saveState();
+  window.scrollTo({top:0});
+}
+document.querySelectorAll(".steps button").forEach(b=>b.addEventListener("click",()=>{ gotoStep(+b.dataset.step); if(+b.dataset.step===5) generateReport(); }));
+
+/* ================= STEP 1: PDF + 墨消し ================= */
+const drop = document.getElementById("drop");
+const fileInput = document.getElementById("fileInput");
+drop.addEventListener("click", ()=>fileInput.click());
+drop.addEventListener("dragover", e=>{e.preventDefault();drop.classList.add("drag");});
+drop.addEventListener("dragleave", ()=>drop.classList.remove("drag"));
+drop.addEventListener("drop", e=>{
+  e.preventDefault(); drop.classList.remove("drag");
+  if(e.dataTransfer.files[0]) loadPdfFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener("change", ()=>{ if(fileInput.files[0]) loadPdfFile(fileInput.files[0]); });
+
+async function loadPdfFile(file){ await loadPdfBuffer(await file.arrayBuffer()); }
+window.__loadPdfBuffer = loadPdfBuffer;
+
+async function loadPdfBuffer(buf){
+  const status = document.getElementById("pdfStatus");
+  status.textContent = "よみこみ中…";
+  state.pages = [];
+  document.getElementById("pageList").innerHTML = "";
+  const doc = await pdfjsLib.getDocument({data:buf}).promise;
+  let portraitCount = 0, landscapeCount = 0;
+  for(let i=1;i<=doc.numPages;i++){
+    const page = await doc.getPage(i);
+    const vp = page.getViewport({scale:1});
+    const isLandscape = vp.width > vp.height;
+    const scale = 900 / Math.max(vp.width, vp.height);
+    const vp2 = page.getViewport({scale});
+    const off = document.createElement("canvas");
+    off.width = Math.round(vp2.width); off.height = Math.round(vp2.height);
+    await page.render({canvasContext: off.getContext("2d"), viewport: vp2}).promise;
+    const bitmap = await createImageBitmap(off);
+    let type;
+    if(isLandscape){ landscapeCount++; type = ["kessanP1","kessanP2","kessanP3","kessanP4"][Math.min(landscapeCount-1,3)]; }
+    else { portraitCount++;
+      if(landscapeCount>0) type = "other";
+      else type = ["daiichi","daini","daisan4","daisan4"][Math.min(portraitCount-1,3)];
+    }
+    state.pages.push({pageNum:i, type, bitmap, w:off.width, h:off.height,
+      ptW: vp.width, ptH: vp.height,
+      presetOn: REDACT_PRESETS[type].map(()=>true), manualBoxes:[]});
+  }
+  status.innerHTML = `${doc.numPages}ページをよみこんで、プライベートな情報を黒塗りしました。<b>黒塗りの位置をひととおり確認してくださいね。</b>`;
+  document.getElementById("step1btns").style.display = "flex";
+  document.getElementById("manualHint").style.display = "block";
+  renderPageList();
+}
+
+function renderPageList(){
+  const list = document.getElementById("pageList");
+  list.innerHTML = "";
+  state.pages.forEach(pg=>{
+    const card = document.createElement("div"); card.className = "pageCard";
+    const cv = document.createElement("canvas");
+    cv.width = pg.w; cv.height = pg.h;
+    card.appendChild(cv);
+    pg.canvas = cv;
+
+    const meta = document.createElement("div"); meta.className = "meta";
+    const sel = document.createElement("select");
+    for(const [k,v] of Object.entries(FORM_TYPES)){
+      const o = document.createElement("option"); o.value = k; o.textContent = v.label;
+      if(k===pg.type) o.selected = true; sel.appendChild(o);
+    }
+    sel.addEventListener("change", ()=>{
+      pg.type = sel.value;
+      pg.presetOn = REDACT_PRESETS[pg.type].map(()=>true);
+      renderPageList();
+    });
+    meta.innerHTML = `<b>ページ ${pg.pageNum}</b><br>`;
+    meta.appendChild(sel);
+    const ul = document.createElement("ul"); ul.className = "zoneList";
+    REDACT_PRESETS[pg.type].forEach((z,zi)=>{
+      const li = document.createElement("li");
+      const ck = document.createElement("input"); ck.type="checkbox"; ck.checked = pg.presetOn[zi];
+      ck.addEventListener("change", ()=>{ pg.presetOn[zi]=ck.checked; drawPage(pg); });
+      li.appendChild(ck); li.appendChild(document.createTextNode("■ "+z.label));
+      ul.appendChild(li);
+    });
+    pg.manualBoxes.forEach((mb,mi)=>{
+      const li = document.createElement("li");
+      li.innerHTML = `■ 手で塗ったところ ${mi+1} `;
+      const del = document.createElement("button"); del.className="del"; del.textContent="けす";
+      del.addEventListener("click", ()=>{ pg.manualBoxes.splice(mi,1); renderPageList(); });
+      li.appendChild(del); ul.appendChild(li);
+    });
+    meta.appendChild(ul);
+    card.appendChild(meta);
+    list.appendChild(card);
+    drawPage(pg);
+    enableManualDraw(pg);
+  });
+}
+
+function activeBoxes(pg){
+  const boxes = [];
+  REDACT_PRESETS[pg.type].forEach((z,zi)=>{ if(pg.presetOn[zi]) boxes.push(z); });
+  return boxes.concat(pg.manualBoxes);
+}
+
+function drawPage(pg, tempBox){
+  const ctx = pg.canvas.getContext("2d");
+  ctx.drawImage(pg.bitmap, 0, 0, pg.w, pg.h);
+  ctx.fillStyle = "#000";
+  for(const b of activeBoxes(pg)) ctx.fillRect(b.x*pg.w, b.y*pg.h, b.w*pg.w, b.h*pg.h);
+  if(tempBox){ ctx.fillStyle="rgba(0,0,0,.55)"; ctx.fillRect(tempBox.x*pg.w, tempBox.y*pg.h, tempBox.w*pg.w, tempBox.h*pg.h); }
+}
+
+function enableManualDraw(pg){
+  const cv = pg.canvas;
+  let start = null;
+  const toFrac = e=>{
+    const r = cv.getBoundingClientRect();
+    return {x: Math.min(Math.max((e.clientX-r.left)/r.width,0),1), y: Math.min(Math.max((e.clientY-r.top)/r.height,0),1)};
+  };
+  cv.addEventListener("pointerdown", e=>{ start = toFrac(e); cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener("pointermove", e=>{ if(start) drawPage(pg, normBox(start, toFrac(e))); });
+  cv.addEventListener("pointerup", e=>{
+    if(!start) return;
+    const b = normBox(start, toFrac(e));
+    start = null;
+    if(b.w>0.005 && b.h>0.005){ pg.manualBoxes.push(b); renderPageList(); }
+    else drawPage(pg);
+  });
+}
+function normBox(a,b){ return {x:Math.min(a.x,b.x), y:Math.min(a.y,b.y), w:Math.abs(a.x-b.x), h:Math.abs(a.y-b.y)}; }
+
+document.getElementById("exportRedacted").addEventListener("click", async ()=>{
+  if(!state.pages.length) return;
+  const btn = document.getElementById("exportRedacted");
+  const btnLabel = btn.innerHTML;
+  btn.disabled = true; btn.textContent = "書き出し中…";
+  try{
+    const out = await PDFLib.PDFDocument.create();
+    for(const pg of state.pages){
+      const hi = document.createElement("canvas");
+      const scaleUp = 1.6;
+      hi.width = Math.round(pg.w*scaleUp); hi.height = Math.round(pg.h*scaleUp);
+      const ctx = hi.getContext("2d");
+      ctx.drawImage(pg.bitmap, 0, 0, hi.width, hi.height);
+      ctx.fillStyle = "#000";
+      for(const b of activeBoxes(pg)) ctx.fillRect(b.x*hi.width, b.y*hi.height, b.w*hi.width, b.h*hi.height);
+      const jpg = await out.embedJpg(hi.toDataURL("image/jpeg", 0.85));
+      const page = out.addPage([pg.ptW, pg.ptH]);
+      page.drawImage(jpg, {x:0, y:0, width:pg.ptW, height:pg.ptH});
+    }
+    const bytes = await out.save();
+    const blob = new Blob([bytes], {type:"application/pdf"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "黒塗り済み_確定申告書.pdf";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } finally {
+    btn.disabled = false; btn.innerHTML = btnLabel;
+  }
+});
+
+/* ================= STEP 2: 収支データ ================= */
+function allCats(){ return EXPENSE_CATS.concat(state.dynCats); }
+
+function buildExpenseTable(){
+  const tbl = document.getElementById("expenseTable");
+  const existing = {};
+  tbl.querySelectorAll("input[type=number]").forEach(i=>existing[i.id]=i.value);
+  tbl.innerHTML = "";
+  allCats().forEach(c=>{
+    const tr = document.createElement("tr");
+    const th = document.createElement("th");
+    th.textContent = c.name;
+    const td = document.createElement("td");
+    const inp = document.createElement("input"); inp.type="number"; inp.min=0; inp.id="exp_"+c.key; inp.placeholder="0";
+    if(existing["exp_"+c.key]) inp.value = existing["exp_"+c.key];
+    inp.addEventListener("input", saveStateDebounced);
+    td.appendChild(inp); td.appendChild(document.createTextNode(" 円"));
+    tr.appendChild(th); tr.appendChild(td); tbl.appendChild(tr);
+  });
+}
+buildExpenseTable();
+
+function getExpenseEntries(){
+  return allCats().map(c=>{
+    const el = document.getElementById("exp_"+c.key);
+    return {key:c.key, name:c.name, amt:+(el && el.value || 0), dep:!!c.dep};
+  }).filter(e=>e.amt>0);
+}
+
+/* ---------- CSVの読み込み ---------- */
+const csvDrop = document.getElementById("csvDrop");
+const csvInput = document.getElementById("csvInput");
+csvDrop.addEventListener("click", ()=>csvInput.click());
+csvDrop.addEventListener("dragover", e=>{e.preventDefault();csvDrop.classList.add("drag");});
+csvDrop.addEventListener("dragleave", ()=>csvDrop.classList.remove("drag"));
+csvDrop.addEventListener("drop", e=>{
+  e.preventDefault(); csvDrop.classList.remove("drag");
+  if(e.dataTransfer.files[0]) loadCsvFile(e.dataTransfer.files[0]);
+});
+csvInput.addEventListener("change", ()=>{ if(csvInput.files[0]) loadCsvFile(csvInput.files[0]); });
+
+async function loadCsvFile(file){
+  const buf = await file.arrayBuffer();
+  let text;
+  try { text = new TextDecoder("utf-8", {fatal:true}).decode(buf); }
+  catch(e){ text = new TextDecoder("shift_jis").decode(buf); }
+  importDeals(text);
+}
+window.__loadCsvText = importDeals;
+
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = "", inQ = false;
+  for(let i=0;i<text.length;i++){
+    const ch = text[i];
+    if(inQ){
+      if(ch === '"'){ if(text[i+1] === '"'){ field+='"'; i++; } else inQ = false; }
+      else field += ch;
+    } else {
+      if(ch === '"') inQ = true;
+      else if(ch === ','){ row.push(field); field=""; }
+      else if(ch === '\n'){ row.push(field); rows.push(row); row=[]; field=""; }
+      else if(ch === '\r'){ /* skip */ }
+      else field += ch;
+    }
+  }
+  if(field !== "" || row.length){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+function importDeals(text){
+  const rows = parseCSV(text);
+  if(rows.length < 2){ alert("CSVが読めませんでした。"); return; }
+  const header = rows[0];
+  const col = name => header.findIndex(h=>h.trim() === name);
+  const ci = { kubun: col("収支区分"), date: col("発生日"), payee: col("取引先"),
+    kamoku: col("勘定科目"), amount: col("金額"), item: col("品目"), memo: col("備考") };
+  if(ci.kubun < 0 || ci.kamoku < 0 || ci.amount < 0){
+    alert("このCSVの形式には未対応です（「収支区分」「勘定科目」「金額」の列が必要です）。");
+    return;
+  }
+  state.txByCat = {}; state.incomeTx = [];
+  state.txChoice = {}; state.incomeTxChoice = {};
+  state.dynCats = [];
+  const dynSeen = {};
+  let incomeSum = 0, incomeOtherSum = 0, skipped = 0, payeeFilled = 0;
+  const catSums = {};
+
+  for(let r=1;r<rows.length;r++){
+    const cells = rows[r];
+    if(cells.length < header.length-2) continue;
+    const kubun = (cells[ci.kubun]||"").trim();
+    const kamoku = (cells[ci.kamoku]||"").trim();
+    const amount = Math.round(+((cells[ci.amount]||"0").replace(/[,，円]/g,"")) || 0);
+    if(!kamoku || !amount) continue;
+    const date = ci.date>=0 ? (cells[ci.date]||"").trim() : "";
+    const item = ci.item>=0 ? (cells[ci.item]||"").trim() : "";
+    const payee = ci.payee>=0 ? (cells[ci.payee]||"").trim() : "";
+    if(payee) payeeFilled++;
+    const memo = item || payee;
+
+    let key = KAMOKU_MAP[kamoku];
+    if(kubun === "収入"){
+      if(key === "__incomeOther"){ incomeOtherSum += amount; }
+      else { incomeSum += amount; }
+      state.incomeTx.push({d:date, a:amount, m:memo});
+      continue;
+    }
+    if(key === "__skip"){ skipped += amount; continue; }
+    if(key === "__income" || key === "__incomeOther"){ incomeOtherSum += amount; continue; }
+    if(!key){
+      const dk = "dyn_" + kamoku;
+      if(!dynSeen[dk]){ dynSeen[dk] = true; state.dynCats.push({key:dk, name:kamoku}); }
+      key = dk;
+    }
+    catSums[key] = (catSums[key]||0) + amount;
+    (state.txByCat[key] = state.txByCat[key] || []).push({d:date, a:amount, m:memo});
+  }
+
+  buildExpenseTable();
+  document.getElementById("incomeTotal").value = incomeSum || "";
+  document.getElementById("incomeOther").value = incomeOtherSum || "";
+  for(const [k,v] of Object.entries(catSums)){
+    const el = document.getElementById("exp_"+k);
+    if(el) el.value = v;
+  }
+
+  const expTotal = Object.values(catSums).reduce((a,b)=>a+b,0);
+  const expCount = Object.values(state.txByCat).reduce((a,b)=>a+b.length,0);
+  const sum = document.getElementById("csvSummary");
+  sum.style.display = "block";
+  sum.innerHTML = `読み取りました！ 収入 <b>${state.incomeTx.length}件 ${fmt(incomeSum+incomeOtherSum)}円</b> ／ 経費 <b>${expCount}件 ${fmt(expTotal)}円</b>（${Object.keys(catSums).length}科目）`
+    + (skipped ? `<br>※ 事業主貸・事業主借 ${fmt(skipped)}円は経費ではないので除いています。` : "")
+    + (payeeFilled === 0 ? `<br>※ 取引先名は入っていないデータでした。だいじょうぶ、つぎのステップでざっくり振り分けられます。` : "");
+  saveState();
+}
+
+/* ================= STEP 3: お金の行き先インタビュー ================= */
+function bigTxOf(list, total){
+  if(!list || !list.length) return [];
+  const threshold = Math.max(total * 0.15, 30000);
+  return list.map((tx,i)=>({...tx, i}))
+    .filter(tx=>tx.a >= threshold)
+    .sort((a,b)=>b.a - a.a)
+    .slice(0,6);
+}
+
+function txRowEl(tx, choiceMap, mapKey, labels, onChange){
+  const row = document.createElement("div"); row.className="txRow";
+  const info = document.createElement("div"); info.className="txinfo";
+  info.innerHTML = `${tx.d ? tx.d.replace(/^\d{4}\//,"")+"　" : ""}<span class="txamt">${fmt(tx.a)}円</span>${tx.m ? `　<span style="color:var(--sub)">${esc(tx.m)}</span>` : ""}`;
+  const btns = document.createElement("div"); btns.className="txBtns";
+  const bIn = document.createElement("button"); bIn.textContent = labels.in;
+  const bExt = document.createElement("button"); bExt.textContent = labels.ext;
+  const update = ()=>{
+    const c = choiceMap[mapKey] && choiceMap[mapKey][tx.i];
+    bIn.className = c==="in" ? "selIn" : "";
+    bExt.className = c==="ext" ? "selExt" : "";
+  };
+  bIn.addEventListener("click", ()=>{
+    choiceMap[mapKey] = choiceMap[mapKey] || {};
+    choiceMap[mapKey][tx.i] = choiceMap[mapKey][tx.i]==="in" ? null : "in";
+    update(); onChange();
+  });
+  bExt.addEventListener("click", ()=>{
+    choiceMap[mapKey] = choiceMap[mapKey] || {};
+    choiceMap[mapKey][tx.i] = choiceMap[mapKey][tx.i]==="ext" ? null : "ext";
+    update(); onChange();
+  });
+  update();
+  btns.appendChild(bIn); btns.appendChild(bExt);
+  row.appendChild(info); row.appendChild(btns);
+  return row;
+}
+
+function buildInterview(){
+  /* ---- 収入 ---- */
+  const incomeTotal = +(document.getElementById("incomeTotal").value||0) + +(document.getElementById("incomeOther").value||0);
+  const incDiv = document.getElementById("incomeAlloc");
+  incDiv.innerHTML = "";
+  const card = document.createElement("div"); card.className="qCard";
+  const aiInc = state.aiQ && state.aiQ["__income"];
+  card.innerHTML = `<div class="qhead"><span class="qname">売上（収入）</span><span class="qamt">合計 ${fmt(incomeTotal)} 円${state.incomeTx.length?`・${state.incomeTx.length}件`:""}</span></div>
+    <div class="qtext">${esc(aiInc ? aiInc.question : INCOME_QUESTION)}</div>
+    ${aiInc && aiInc.hint ? `<div class="qhint">${esc(aiInc.hint)}</div>` : ""}`;
+  const bigInc = bigTxOf(state.incomeTx, incomeTotal);
+  if(bigInc.length){
+    const cap = document.createElement("div"); cap.className="slabel"; cap.textContent="大きめの売上はこちら。個別に教えてください：";
+    card.appendChild(cap);
+    bigInc.forEach(tx=>card.appendChild(txRowEl(tx, state.incomeTxChoice, "__income", {in:"島の中から", ext:"島の外から"}, saveStateDebounced)));
+  }
+  const sb = document.createElement("div"); sb.className="sliderBlock";
+  sb.innerHTML = `<div class="slabel">${bigInc.length?"残りの売上は、":"売上は、"}だいたいどこから？</div>`;
+  const range = document.createElement("input"); range.type="range"; range.min=0; range.max=100; range.step=5; range.value=state.incomeOutsideRatio;
+  const pct = document.createElement("div"); pct.className="pct";
+  const update = ()=>{ state.incomeOutsideRatio=+range.value; pct.innerHTML = `<span class="pctIn">島の中から ${100-range.value}%</span><span class="pctOut" style="color:var(--sea-deep)">島の外から ${range.value}%</span>`; saveStateDebounced(); };
+  range.addEventListener("input", update);
+  const chips = document.createElement("div"); chips.className="chips";
+  [{label:"ぜんぶ島の中",v:0},{label:"島内が多め",v:25},{label:"半々くらい",v:50},{label:"島外が多め",v:75},{label:"ぜんぶ島の外",v:100}].forEach(c=>{
+    const b=document.createElement("button"); b.textContent=c.label;
+    b.addEventListener("click",()=>{range.value=c.v;update();});
+    chips.appendChild(b);
+  });
+  sb.appendChild(range); sb.appendChild(pct); sb.appendChild(chips);
+  card.appendChild(sb);
+  update();
+  incDiv.appendChild(card);
+
+  /* ---- 経費 ---- */
+  const expDiv = document.getElementById("expenseAlloc");
+  expDiv.innerHTML = "";
+  const entries = getExpenseEntries();
+  if(!entries.length){
+    expDiv.innerHTML = `<div class="warn-note">経費がまだ入っていません。ステップ2でCSVを読み込むか、金額を入れてくださいね。</div>`;
+    return;
+  }
+  entries.sort((a,b)=>b.amt-a.amt);
+  entries.forEach(e=>{
+    if(!(e.key in state.alloc)) state.alloc[e.key] = 50;
+    const txs = state.txByCat[e.key] || [];
+    const aiQ = state.aiQ && state.aiQ[e.key];
+    const qtext = aiQ ? aiQ.question : (CAT_QUESTIONS[e.key] || `「${e.name}」のお金は、どれくらい島のお店・会社・人に向かいましたか？`);
+    const c = document.createElement("div"); c.className="qCard";
+    c.innerHTML = `<div class="qhead"><span class="qname">${esc(e.name)}</span><span class="qamt">${fmt(e.amt)} 円${txs.length?`・${txs.length}件`:""}</span></div>
+      <div class="qtext">${esc(qtext)}</div>
+      ${aiQ && aiQ.hint ? `<div class="qhint">${esc(aiQ.hint)}</div>` : ""}`;
+    if(e.dep){
+      const noteEl = document.createElement("div"); noteEl.className="qhint";
+      noteEl.textContent = "※ 減価償却費は「ものさし」の設定で、流出に数えないこともできます。";
+      c.appendChild(noteEl);
+    }
+    const big = bigTxOf(txs, e.amt);
+    if(big.length){
+      const cap = document.createElement("div"); cap.className="slabel"; cap.textContent="大きめの支払いはこちら。覚えていたら個別にどうぞ：";
+      c.appendChild(cap);
+      big.forEach(tx=>c.appendChild(txRowEl(tx, state.txChoice, e.key, {in:"島内", ext:"島外・チェーン"}, saveStateDebounced)));
+    }
+    const sb = document.createElement("div"); sb.className="sliderBlock";
+    sb.innerHTML = `<div class="slabel">${big.length?"残りのこまごました支払いは、":""}だいたいどれくらいが島内でしたか？</div>`;
+    const range = document.createElement("input"); range.type="range"; range.min=0; range.max=100; range.step=5; range.value=state.alloc[e.key];
+    const pct = document.createElement("div"); pct.className="pct";
+    const upd = ()=>{ state.alloc[e.key]=+range.value; pct.innerHTML = `<span class="pctOut">島外・チェーン ${100-range.value}%</span><span class="pctIn">島内 ${range.value}%</span>`; saveStateDebounced(); };
+    range.addEventListener("input", upd);
+    const chips = document.createElement("div"); chips.className="chips";
+    [{label:"ぜんぶ島外",v:0},{label:"島外が多め",v:10},{label:"半々くらい",v:50},{label:"島内が多め",v:90},{label:"ぜんぶ島内",v:100}].forEach(ch=>{
+      const b=document.createElement("button"); b.textContent=ch.label;
+      b.addEventListener("click",()=>{range.value=ch.v;upd();});
+      chips.appendChild(b);
+    });
+    sb.appendChild(range); sb.appendChild(pct); sb.appendChild(chips);
+    c.appendChild(sb);
+    upd();
+    expDiv.appendChild(c);
+  });
+}
+
+/* AIアシスト（問診の自動生成）は今後のアップデートで追加予定 */
+
+/* ================= STEP 4 ================= */
+document.getElementById("alpha").addEventListener("input", e=>{document.getElementById("alphaVal").textContent=e.target.value; saveStateDebounced();});
+document.getElementById("beta").addEventListener("input", e=>{document.getElementById("betaVal").textContent=e.target.value; saveStateDebounced();});
+
+/* ================= STEP 5: 計算と生成 ================= */
+function fmt(n){ return Math.round(n).toLocaleString("ja-JP"); }
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function splitWithTx(total, txs, choiceMapEntry, sliderInPct){
+  /* 個別に振り分けた分 + 残りはスライダー比率で按分 */
+  let inSum = 0, extSum = 0;
+  if(txs && choiceMapEntry){
+    for(const [i, c] of Object.entries(choiceMapEntry)){
+      const tx = txs[+i];
+      if(!tx || !c) continue;
+      if(c === "in") inSum += tx.a;
+      else if(c === "ext") extSum += tx.a;
+    }
+  }
+  const remainder = Math.max(total - inSum - extSum, 0);
+  inSum += remainder * sliderInPct;
+  extSum += remainder * (1 - sliderInPct);
+  return {inAmt: inSum, extAmt: extSum};
+}
+
+function compute(){
+  const region = document.getElementById("regionName").value || "地域";
+  const alpha = +document.getElementById("alpha").value/100;
+  const beta  = +document.getElementById("beta").value/100;
+  const depMode = document.querySelector('input[name=depMode]:checked').value;
+  const incomeTotal = +(document.getElementById("incomeTotal").value||0) + +(document.getElementById("incomeOther").value||0);
+  const aoiro = +(document.getElementById("aoiroDeduction").value||0);
+  const entries = getExpenseEntries();
+
+  /* 収入：in=島内から, ext=島外から */
+  const incSplit = splitWithTx(incomeTotal, state.incomeTx, state.incomeTxChoice["__income"], 1 - state.incomeOutsideRatio/100);
+  const incomeInside = incSplit.inAmt, incomeOutside = incSplit.extAmt;
+
+  let spendIn = 0, spendOut = 0, depExcluded = 0, totalExp = 0;
+  const rows = [];
+  for(const e of entries){
+    totalExp += e.amt;
+    if(e.dep && depMode==="exclude"){ depExcluded += e.amt; rows.push({...e, inAmt:0, outAmt:0, excluded:true}); continue; }
+    const sp = splitWithTx(e.amt, state.txByCat[e.key], state.txChoice[e.key], (state.alloc[e.key] ?? 50)/100);
+    spendIn += sp.inAmt; spendOut += sp.extAmt;
+    rows.push({...e, inAmt:sp.inAmt, outAmt:sp.extAmt, pct: e.amt>0 ? sp.inAmt/e.amt*100 : 0});
+  }
+  const cashExp = totalExp - depExcluded;
+
+  const adjIncome = incomeOutside + incomeInside*(1-beta);
+  const adjLoss   = spendOut + spendIn*(1-alpha);
+  const localismIncome = adjIncome - adjLoss;
+  const nominalIncome  = incomeTotal - totalExp - aoiro;
+  const circulation = cashExp>0 ? spendIn/cashExp : 0;
+  const contribution = incomeOutside + spendIn*alpha - spendOut;
+
+  return {region, alpha, beta, depMode, incomeTotal, incomeOutside, incomeInside,
+    spendIn, spendOut, cashExp, totalExp, depExcluded, aoiro, rows,
+    adjIncome, adjLoss, localismIncome, nominalIncome, circulation, contribution};
+}
+
+function gaugeHTML(inVal, outVal, inLabel, outLabel){
+  const total = inVal+outVal;
+  if(total<=0) return "";
+  const ip = inVal/total*100, op = outVal/total*100;
+  return `<div class="gauge"><div class="gaugeBar">
+    <div class="gIn" style="width:${ip}%">${ip>=14? inLabel+" "+ip.toFixed(0)+"%":""}</div>
+    <div class="gOut" style="width:${op}%">${op>=14? outLabel+" "+op.toFixed(0)+"%":""}</div>
+  </div><div class="cap">${inLabel}: ${fmt(inVal)}円 ／ ${outLabel}: ${fmt(outVal)}円</div></div>`;
+}
+
+function generateReport(){
+  const r = compute();
+  const rep = document.getElementById("report");
+  if(r.incomeTotal<=0 && r.totalExp<=0){
+    rep.style.display="block";
+    rep.innerHTML = `<div class="warn-note">金額がまだ入っていません。ステップ2で収入と経費を入れてくださいね。</div>`;
+    return;
+  }
+  const expRows = r.rows.map(e=>{
+    if(e.excluded) return `<tr><th>${esc(e.name)}</th><td class="num">${fmt(e.amt)}</td><td class="num" colspan="2" style="color:#999">対象外（お金の動きなし）</td></tr>`;
+    return `<tr><th>${esc(e.name)}　<span style="color:#578">島内 ${e.pct.toFixed(0)}%</span></th>
+      <td class="num">${fmt(e.amt)}</td>
+      <td class="num" style="color:var(--sea-deep)">${fmt(e.inAmt)}</td>
+      <td class="num" style="color:var(--coral)">${fmt(e.outAmt)}</td></tr>`;
+  }).join("");
+
+  const scoreClass = r.contribution>=0 ? "" : "neg";
+  rep.style.display = "block";
+  rep.innerHTML = `
+  <div class="sheet" id="sheetBody">
+    <div class="formhead">
+      <div>
+        <div class="era">令和７年分の 経済循環及び地域貢献の</div>
+        <h3>ローカリズム確定申告書</h3>
+      </div>
+      <span class="fa">LO0001 ｜ ${esc(r.region)}</span>
+    </div>
+
+    <div class="bigScore">
+      <div class="scoreCard"><div class="t">島内循環率</div><div class="v">${(r.circulation*100).toFixed(1)}<span style="font-size:14px">%</span></div><div class="u">経費のうち${esc(r.region)}の中に向かった割合</div></div>
+      <div class="scoreCard"><div class="t">外貨獲得額</div><div class="v">${fmt(r.incomeOutside)}</div><div class="u">島の外から${esc(r.region)}に連れてきたお金（円）</div></div>
+      <div class="scoreCard ${scoreClass}"><div class="t">地域経済貢献額</div><div class="v">${fmt(r.contribution)}</div><div class="u">外貨獲得 ＋ 島内でめぐるお金 − 島外への流出（円）</div></div>
+      <div class="stamp">LOCALISM<br>TAX RETURN<br>${esc(r.region)}</div>
+    </div>
+
+    <h4 class="sec">収入 ─ そのお金はどこから来たか</h4>
+    <table class="form">
+      <tr><th>収入の合計</th><td class="num">${fmt(r.incomeTotal)} 円</td></tr>
+      <tr><th>うち 島の外から（観光客・島外取引・ネット販売）　<span style="font-weight:400">100%計上</span></th><td class="num" style="color:var(--sea-deep)">${fmt(r.incomeOutside)} 円</td></tr>
+      <tr><th>うち 島の中から　<span style="font-weight:400">${(100-r.beta*100).toFixed(0)}%だけ計上</span></th><td class="num">${fmt(r.incomeInside)} 円 → ${fmt(r.incomeInside*(1-r.beta))} 円</td></tr>
+      <tr><th style="background:#dcefe6"><b>ローカリズム調整後の収入</b></th><td class="num big">${fmt(r.adjIncome)} 円</td></tr>
+    </table>
+    ${gaugeHTML(r.incomeOutside, r.incomeInside, "島の外から（外貨）", "島の中から")}
+
+    <h4 class="sec">経費 ─ そのお金はどこへ行ったか</h4>
+    <table class="form">
+      <tr style="background:#eef7f2"><th style="width:46%">科目</th><td style="text-align:right;font-size:12px">金額</td><td style="text-align:right;font-size:12px;color:var(--sea-deep)">島内へ</td><td style="text-align:right;font-size:12px;color:var(--coral)">島外・チェーンへ</td></tr>
+      ${expRows}
+      <tr><th><b>経費合計</b>${r.depExcluded>0?`（うち${fmt(r.depExcluded)}円は減価償却費として対象外）`:""}</th><td class="num">${fmt(r.totalExp)}</td><td class="num" style="color:var(--sea-deep)">${fmt(r.spendIn)}</td><td class="num" style="color:var(--coral)">${fmt(r.spendOut)}</td></tr>
+      <tr><th>島内への支払いは ${(r.alpha*100).toFixed(0)}% 島に残るとみなすと、流出はこれだけ</th><td class="num" colspan="3">${fmt(r.spendIn)} 円 → ${fmt(r.spendIn*(1-r.alpha))} 円</td></tr>
+      <tr><th style="background:#dcefe6"><b>ローカリズム調整後の流出（島から出ていったお金）</b></th><td class="num big" colspan="3">${fmt(r.adjLoss)} 円</td></tr>
+    </table>
+    ${gaugeHTML(r.spendIn, r.spendOut, "島内へ", "島外・チェーンへ")}
+
+    <h4 class="sec">まとめ</h4>
+    <table class="form">
+      <tr><th>ふつうの所得（参考：収入 − 経費 − 青色控除${fmt(r.aoiro)}円）</th><td class="num">${fmt(r.nominalIncome)} 円</td></tr>
+      <tr><th style="background:#dcefe6"><b>ローカリズム所得</b>（調整後の収入 − 調整後の流出）</th><td class="num big">${fmt(r.localismIncome)} 円</td></tr>
+      <tr><th><b>地域経済貢献額</b>（外貨 ${fmt(r.incomeOutside)} ＋ 島内でめぐる ${fmt(r.spendIn*r.alpha)} − 流出 ${fmt(r.spendOut)}）</th><td class="num big" style="color:${r.contribution>=0?"var(--sea-deep)":"var(--coral)"}">${fmt(r.contribution)} 円</td></tr>
+    </table>
+
+    <div class="foot">
+      ◎ 計算のしかた：島内への支払いは地域の中で再びめぐるため、流出としては ${(r.alpha*100).toFixed(0)}% 差し引いて数えています。島内からの収入は地域内の移動とみなし ${(r.beta*100).toFixed(0)}% 差し引き。島外からの収入は外貨獲得として100%計上。${r.depMode==="exclude"?"減価償却費はお金の動きがないため流出に含めていません。":""}<br>
+      ◎ この考え方は、お金が地域内をめぐる回数を測る指標 LM3（Local Multiplier 3, New Economics Foundation）の思想にもとづく簡易版です。<br>
+      ※ この書類はあなたの経済活動と地域のつながりを可視化するためのもので、税務署に出すものではありません。
+    </div>
+  </div>`;
+  saveState();
+}
+
+function downloadReport(){
+  if(!document.getElementById("sheetBody")) generateReport();
+  const body = document.getElementById("sheetBody");
+  if(!body) return;
+  const css = document.querySelector("style").textContent;
+  const html = `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>ローカリズム確定申告書</title><link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet"><style>${css} body{background:#fff;padding:20px}</style></head><body>${body.outerHTML}</body></html>`;
+  const blob = new Blob([html], {type:"text/html"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "ローカリズム確定申告書.html";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ================= 保存／復元（PDFは保存しない） ================= */
+let saveTimer = null;
+function saveStateDebounced(){ clearTimeout(saveTimer); saveTimer = setTimeout(saveState, 400); }
+function saveState(){
+  const data = {
+    incomeTotal: document.getElementById("incomeTotal").value,
+    incomeOther: document.getElementById("incomeOther").value,
+    aoiro: document.getElementById("aoiroDeduction").value,
+    region: document.getElementById("regionName").value,
+    alpha: document.getElementById("alpha").value,
+    beta: document.getElementById("beta").value,
+    depMode: document.querySelector('input[name=depMode]:checked').value,
+    alloc: state.alloc,
+    incomeOutsideRatio: state.incomeOutsideRatio,
+    dynCats: state.dynCats,
+    txByCat: state.txByCat,
+    txChoice: state.txChoice,
+    incomeTx: state.incomeTx,
+    incomeTxChoice: state.incomeTxChoice,
+    aiQ: state.aiQ,
+    expenses: {}
+  };
+  allCats().forEach(c=>{
+    const el = document.getElementById("exp_"+c.key);
+    if(el) data.expenses[c.key] = el.value;
+  });
+  try{ localStorage.setItem("localism-return", JSON.stringify(data)); }catch(e){ console.warn("save failed", e); }
+}
+function loadState(){
+  try{
+    const d = JSON.parse(localStorage.getItem("localism-return"));
+    if(!d) return;
+    state.dynCats = d.dynCats||[];
+    buildExpenseTable();
+    document.getElementById("incomeTotal").value = d.incomeTotal||"";
+    document.getElementById("incomeOther").value = d.incomeOther||"";
+    document.getElementById("aoiroDeduction").value = d.aoiro||"";
+    document.getElementById("regionName").value = d.region||"石垣島";
+    document.getElementById("alpha").value = d.alpha||90;
+    document.getElementById("alphaVal").textContent = d.alpha||90;
+    document.getElementById("beta").value = d.beta||90;
+    document.getElementById("betaVal").textContent = d.beta||90;
+    if(d.depMode) document.querySelector(`input[name=depMode][value=${d.depMode}]`).checked = true;
+    state.alloc = d.alloc||{};
+    state.incomeOutsideRatio = d.incomeOutsideRatio ?? 70;
+    state.txByCat = d.txByCat||{};
+    state.txChoice = d.txChoice||{};
+    state.incomeTx = d.incomeTx||[];
+    state.incomeTxChoice = d.incomeTxChoice||{};
+    state.aiQ = d.aiQ||null;
+    allCats().forEach(c=>{
+      const el = document.getElementById("exp_"+c.key);
+      if(el && d.expenses && d.expenses[c.key]!=null) el.value = d.expenses[c.key];
+    });
+    if(Object.keys(state.txByCat).length){
+      const sum = document.getElementById("csvSummary");
+      sum.style.display = "block";
+      sum.innerHTML = "前回読み込んだ取引データを覚えています。新しいCSVを入れると上書きされます。";
+    }
+  }catch(e){ console.warn("state load failed", e); }
+}
+document.querySelectorAll("#panel2 input, #panel4 input").forEach(el=>el.addEventListener("input", saveStateDebounced));
+loadState();
+</script>
+</body>
+</html>
