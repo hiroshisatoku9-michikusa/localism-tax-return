@@ -27,6 +27,14 @@ PDF・CSVの処理はすべてブラウザ内で完結し、**データはどこ
 - サーバなし・送信なし。入力値は localStorage のみ（PDFは保存しない。CSV由来の明細は localStorage に保存）
 - 自動黒塗りゾーンは `index.html` の `REDACT_PRESETS`（ページ比率座標）で定義。令和7年分・作成コーナー出力のレイアウトに合わせて調整済み
 
+## 公開URL
+
+https://hiroshisatoku9-michikusa.github.io/localism-tax-return/
+
+GitHub Pages（リポジトリ: `hiroshisatoku9-michikusa/localism-tax-return`）。
+更新手順: `index.html` と `README.md` を `deploy/` にコピー → `cd deploy && git add -A && git commit && git push`。
+**`deploy/` に sample.pdf や deals.csv を入れないこと**（個人データ）。
+
 ## 開発メモ
 
 - 依存: pdf.js 3.11 / pdf-lib 1.17 / Zen Maru Gothic（いずれもCDN）
