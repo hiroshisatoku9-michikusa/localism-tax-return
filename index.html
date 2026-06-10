@@ -8,126 +8,131 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#faf5ec; --card:#fffdf8; --paper:#fffcf4;
-  --ink:#3a4540; --sub:#7c8680;
-  --sea:#0e8a6b; --sea-deep:#0a6a52; --sea-pale:#e3f2ec; --sea-line:#bfe0d4;
-  --coral:#e07a5f; --coral-pale:#fbeae4;
-  --sand:#ece1cc; --sun:#f2b84b;
-  --shadow:0 1px 0 rgba(60,50,30,.06), 0 4px 14px rgba(60,50,30,.06);
+  --bg:#edebe6; --card:#ffffff; --paper:#fbfaf7;
+  --ink:#22262f; --sub:#71767f;
+  --blue:#2b59c3; --blue-deep:#1c3f96; --blue-pale:#e9eefa; --blue-line:#c9d4ee;
+  --orange:#ec7c2c; --orange-pale:#fdeede;
+  --line:#d9d5cc; --sun:#f0a83c;
+  --shadow:0 1px 2px rgba(40,40,60,.05);
   --r:2px;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
+body::before{content:"";display:block;height:5px;background:linear-gradient(90deg,var(--blue) 0 62%,var(--orange) 62% 86%,var(--sun) 86% 100%)}
 .ic{width:1.05em;height:1.05em;vertical-align:-0.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.ic.lg{width:30px;height:30px;display:block;margin:0 auto 8px;color:var(--sea)}
-header.app{padding:30px 20px 8px;text-align:center}
-header.app .eyebrow{font-size:11px;letter-spacing:.42em;color:var(--coral);font-weight:700;margin-bottom:2px}
-header.app h1{font-size:26px;margin:0;letter-spacing:.12em;color:var(--sea-deep);font-weight:900}
-header.app .tagline{font-size:13px;color:var(--sub);margin-top:6px;letter-spacing:.05em}
+.ic.lg{width:30px;height:30px;display:block;margin:0 auto 8px;color:var(--blue)}
+header.app{padding:36px 20px 6px;text-align:center}
+header.app .eyebrow{font-size:11px;letter-spacing:.46em;color:var(--orange);font-weight:700;margin-bottom:4px}
+header.app h1{font-size:30px;margin:0;letter-spacing:.14em;color:var(--ink);font-weight:900}
+header.app .tagline{font-size:13px;color:var(--sub);margin-top:8px;letter-spacing:.05em}
 header.app .badges{margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.badge{font-size:11.5px;background:var(--sea-pale);color:var(--sea-deep);border-radius:var(--r);padding:3px 14px}
-.badge.coral{background:var(--coral-pale);color:#b05438}
+.badge{font-size:11.5px;background:var(--blue-pale);color:var(--blue-deep);border-radius:var(--r);padding:3px 14px}
+.badge.coral{background:var(--orange-pale);color:#b35a14}
 .wrap{max-width:1060px;margin:0 auto;padding:14px 16px 60px}
-/* steps */
-.steps{display:flex;gap:8px;margin:14px 0 22px;flex-wrap:wrap;justify-content:center}
-.steps button{border:none;background:var(--card);box-shadow:var(--shadow);padding:9px 16px;border-radius:var(--r);cursor:pointer;font-size:12.5px;color:var(--ink);font-family:inherit;transition:.15s}
-.steps button:hover{transform:translateY(-1px)}
-.steps button.active{background:var(--sea);color:#fff;font-weight:700}
-.panel{display:none;background:var(--card);border-radius:var(--r);padding:26px 26px 22px;box-shadow:var(--shadow)}
+/* steps — 6等分グリッド */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;margin:18px 0 26px;background:var(--line);border:1px solid var(--line)}
+.steps button{border:none;background:var(--card);padding:12px 6px 10px;cursor:pointer;font-size:12px;color:var(--ink);font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;transition:background .15s}
+.steps button:hover{background:var(--blue-pale)}
+.steps button .num{font-size:10px;letter-spacing:.22em;color:var(--orange);font-weight:700}
+.steps button.active{background:var(--blue);color:#fff;font-weight:700}
+.steps button.active .num{color:#fff;opacity:.75}
+@media(max-width:720px){.steps{grid-template-columns:repeat(3,1fr)}}
+.panel{display:none;background:var(--card);border:1px solid var(--line);padding:28px 28px 24px}
 .panel.show{display:block}
-.panel h2{margin:0 0 4px;font-size:18px;color:var(--sea-deep)}
+.panel h2{margin:0 0 4px;font-size:20px;color:var(--ink);font-weight:900;letter-spacing:.04em}
+.panel h2 .secno{display:block;font-size:11px;letter-spacing:.34em;color:var(--orange);font-weight:700;margin-bottom:2px}
 .panel p.lead{margin:4px 0 16px;font-size:13.5px;color:var(--sub)}
-.note{background:var(--sea-pale);border-radius:var(--r);padding:12px 16px;font-size:12.5px;margin:12px 0}
-.warn-note{background:var(--coral-pale);border-radius:var(--r);padding:12px 16px;font-size:12.5px;margin:12px 0;color:#8a4a32}
+.note{background:var(--blue-pale);border-radius:var(--r);padding:12px 16px;font-size:12.5px;margin:12px 0}
+.warn-note{background:var(--orange-pale);border-radius:var(--r);padding:12px 16px;font-size:12.5px;margin:12px 0;color:#8a5414}
 /* buttons */
-.btn{background:var(--sea);color:#fff;border:none;border-radius:var(--r);padding:11px 26px;font-size:14px;cursor:pointer;font-weight:700;font-family:inherit;box-shadow:var(--shadow);transition:.15s}
-.btn:hover{background:var(--sea-deep);transform:translateY(-1px)}
-.btn.sub{background:var(--card);color:var(--sea-deep);border:1.5px solid var(--sea-line)}
-.btn.coral{background:var(--coral)}
+.btn{background:var(--blue);color:#fff;border:none;border-radius:var(--r);padding:11px 26px;font-size:14px;cursor:pointer;font-weight:700;font-family:inherit;transition:.15s}
+.btn:hover{background:var(--blue-deep)}
+.btn.sub{background:var(--card);color:var(--blue-deep);border:1.5px solid var(--blue-line)}
+.btn.coral{background:var(--orange)}
 .btn.mini{padding:6px 14px;font-size:12px}
-.btn:disabled{background:#b9c4be;cursor:not-allowed;transform:none}
+.btn:disabled{background:#b8bcc4;cursor:not-allowed}
 .btnrow{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 /* drop zone */
-.drop{border:2px dashed var(--sea-line);border-radius:var(--r);padding:30px 20px;text-align:center;cursor:pointer;background:var(--paper);transition:.15s;font-size:14px}
-.drop.drag{background:var(--sea-pale);border-color:var(--sea)}
-.drop b{color:var(--sea-deep)}
+.drop{border:2px dashed var(--blue-line);border-radius:var(--r);padding:30px 20px;text-align:center;cursor:pointer;background:var(--paper);transition:.15s;font-size:14px}
+.drop.drag{background:var(--blue-pale);border-color:var(--blue)}
+.drop b{color:var(--blue-deep)}
 .drop .small{font-size:11.5px;color:var(--sub);display:block;margin-top:4px}
-.csvSummary{display:none;background:var(--sea-pale);border-radius:var(--r);padding:14px 18px;font-size:13px;margin-top:14px}
-.csvSummary b{color:var(--sea-deep)}
+.csvSummary{display:none;background:var(--blue-pale);border-radius:var(--r);padding:14px 18px;font-size:13px;margin-top:14px}
+.csvSummary b{color:var(--blue-deep)}
 /* settings */
 .setGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px}
-.setBlock{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r);padding:14px 16px}
-.setBlock label.title{font-weight:700;font-size:13px;display:block;margin-bottom:4px;color:var(--sea-deep)}
+.setBlock{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.setBlock label.title{font-weight:700;font-size:13px;display:block;margin-bottom:4px;color:var(--blue-deep)}
 .setBlock .desc{font-size:11.5px;color:var(--sub);margin-bottom:6px}
-.setBlock input[type=text]{width:100%;padding:8px 10px;border:1.5px solid var(--sand);border-radius:var(--r);font-size:13px;font-family:inherit;background:#fff}
-.setBlock textarea{width:100%;min-height:64px;padding:8px 10px;border:1.5px solid var(--sand);border-radius:var(--r);font-size:12px;font-family:inherit;background:#fff;resize:vertical}
+.setBlock input[type=text]{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:var(--r);font-size:13px;font-family:inherit;background:#fff}
+.setBlock textarea{width:100%;min-height:64px;padding:8px 10px;border:1.5px solid var(--line);border-radius:var(--r);font-size:12px;font-family:inherit;background:#fff;resize:vertical}
 /* group / payee / tx cards */
-.qCard{border:1px solid var(--sand);border-radius:var(--r);padding:14px 18px;margin-bottom:12px;background:var(--paper)}
+.qCard{border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;margin-bottom:12px;background:var(--paper)}
 .qCard .qhead{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
-.qCard .qname{font-weight:700;font-size:14.5px;color:var(--sea-deep)}
+.qCard .qname{font-weight:700;font-size:14.5px;color:var(--blue-deep)}
 .qCard .qamt{font-size:12.5px;color:var(--sub)}
 .qCard .qtext{font-size:13px;margin:6px 0 4px}
 .qCard .qmeta{font-size:12px;color:var(--sub);margin:2px 0 6px}
-.kbadge{display:inline-block;font-size:10.5px;padding:1px 8px;border-radius:var(--r);background:var(--sea-pale);color:var(--sea-deep);font-weight:700;margin-right:6px}
-.kbadge.exp{background:var(--coral-pale);color:#a04a30}
-.cand{display:inline-block;font-size:11px;padding:1px 8px;border-radius:var(--r);border:1px solid var(--sand);color:var(--sub);margin-left:6px}
-.cand.in{border-color:var(--sea-line);color:var(--sea-deep);background:var(--sea-pale)}
-.cand.ext{border-color:#f0cabb;color:#a04a30;background:var(--coral-pale)}
-.cand.partial{border-color:#ecd9a8;color:#8a6b1d;background:#faf3df}
+.kbadge{display:inline-block;font-size:10.5px;padding:1px 8px;border-radius:var(--r);background:var(--blue-pale);color:var(--blue-deep);font-weight:700;margin-right:6px}
+.kbadge.exp{background:var(--orange-pale);color:#b35a14}
+.cand{display:inline-block;font-size:11px;padding:1px 8px;border-radius:var(--r);border:1px solid var(--line);color:var(--sub);margin-left:6px}
+.cand.in{border-color:var(--blue-line);color:var(--blue-deep);background:var(--blue-pale)}
+.cand.ext{border-color:#f3cfae;color:#b35a14;background:var(--orange-pale)}
+.cand.partial{border-color:#f3cfae;color:#8a5414;background:var(--orange-pale)}
 .decideBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-.decideBtns button{border:1.5px solid var(--sand);background:#fff;border-radius:var(--r);padding:4px 14px;cursor:pointer;font-size:12px;font-family:inherit;transition:.1s}
-.decideBtns button.selIn{background:var(--sea);border-color:var(--sea);color:#fff;font-weight:700}
-.decideBtns button.selExt{background:var(--coral);border-color:var(--coral);color:#fff;font-weight:700}
-.decideBtns button.selPartial{background:var(--sun);border-color:var(--sun);color:#5c4400;font-weight:700}
-.txRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;border-radius:var(--r);background:var(--paper);margin:6px 0;font-size:12.5px;border:1px solid var(--sand)}
+.decideBtns button{border:1.5px solid var(--line);background:#fff;border-radius:var(--r);padding:4px 14px;cursor:pointer;font-size:12px;font-family:inherit;transition:.1s}
+.decideBtns button.selIn{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
+.decideBtns button.selExt{background:var(--orange);border-color:var(--orange);color:#fff;font-weight:700}
+.decideBtns button.selPartial{background:var(--sun);border-color:var(--sun);color:#5c3a10;font-weight:700}
+.txRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;border-radius:var(--r);background:var(--paper);margin:6px 0;font-size:12.5px;border:1px solid var(--line)}
 .txRow .txinfo{flex:1;min-width:160px}
 .txRow .txamt{font-weight:700;font-variant-numeric:tabular-nums}
 .sliderBlock{margin-top:8px}
 .sliderBlock .slabel{font-size:12px;color:var(--sub);margin-bottom:2px}
-.qCard input[type=range]{width:100%;accent-color:var(--sea)}
+.qCard input[type=range]{width:100%;accent-color:var(--blue)}
 .pct{font-size:12.5px;display:flex;justify-content:space-between}
-.pctIn{color:var(--sea-deep);font-weight:700}
-.pctOut{color:var(--coral);font-weight:700}
+.pctIn{color:var(--blue-deep);font-weight:700}
+.pctOut{color:var(--orange);font-weight:700}
 .chips{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-.chips button{font-size:11.5px;border:1.5px solid var(--sea-line);background:#fff;border-radius:var(--r);padding:3px 12px;cursor:pointer;font-family:inherit}
-.chips button:hover{background:var(--sea-pale)}
-.subhead{font-size:14.5px;font-weight:700;color:var(--sea-deep);margin:22px 0 8px}
+.chips button{font-size:11.5px;border:1.5px solid var(--blue-line);background:#fff;border-radius:var(--r);padding:3px 12px;cursor:pointer;font-family:inherit}
+.chips button:hover{background:var(--blue-pale)}
+.subhead{font-size:14.5px;font-weight:700;color:var(--blue-deep);margin:22px 0 8px}
 .progressNote{font-size:12px;color:var(--sub);margin:8px 0}
 /* ものさし */
-details.scale{border:1.5px solid var(--sand);border-radius:var(--r);padding:12px 18px;margin-bottom:16px;background:var(--paper);font-size:13px}
-details.scale summary{cursor:pointer;font-weight:700;color:var(--sea-deep)}
+details.scale{border:1.5px solid var(--line);border-radius:var(--r);padding:12px 18px;margin-bottom:16px;background:var(--paper);font-size:13px}
+details.scale summary{cursor:pointer;font-weight:700;color:var(--blue-deep)}
 .paramBlock{margin:14px 0}
-.paramBlock label.title{font-weight:700;font-size:13px;display:block;color:var(--sea-deep)}
+.paramBlock label.title{font-weight:700;font-size:13px;display:block;color:var(--blue-deep)}
 .paramBlock .desc{font-size:11.5px;color:var(--sub);margin-bottom:4px}
-.paramBlock input[type=range]{width:100%;accent-color:var(--sea)}
+.paramBlock input[type=range]{width:100%;accent-color:var(--blue)}
 /* ===== report ===== */
 #report{display:none;margin-top:18px}
-.sheet{background:var(--paper);border:2px solid var(--sea);padding:26px 30px;max-width:880px;margin:0 auto;color:#27433a;box-shadow:var(--shadow)}
-.sheet .formhead{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px double var(--sea);padding-bottom:10px;flex-wrap:wrap;gap:8px}
-.sheet .formhead h3{margin:0;font-size:22px;letter-spacing:.08em;color:var(--sea-deep)}
+.sheet{background:var(--paper);border:2px solid var(--blue);padding:26px 30px;max-width:880px;margin:0 auto;color:#22262f;box-shadow:var(--shadow)}
+.sheet .formhead{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px double var(--blue);padding-bottom:10px;flex-wrap:wrap;gap:8px}
+.sheet .formhead h3{margin:0;font-size:22px;letter-spacing:.08em;color:var(--blue-deep)}
 .sheet .formhead .era{font-size:12.5px;color:var(--sub)}
-.sheet .formhead .fa{border:1.5px solid var(--sea);padding:2px 12px;font-size:12px;color:var(--sea-deep)}
+.sheet .formhead .fa{border:1.5px solid var(--blue);padding:2px 12px;font-size:12px;color:var(--blue-deep)}
 .sheet .stance{font-size:11.5px;color:var(--sub);margin-top:8px}
-.sheet h4.sec{background:var(--sea);color:#fff;font-size:13px;margin:20px 0 0;padding:6px 14px;letter-spacing:.18em}
+.sheet h4.sec{background:var(--blue);color:#fff;font-size:13px;margin:20px 0 0;padding:6px 14px;letter-spacing:.18em}
 table.form{width:100%;border-collapse:collapse;font-size:13px}
-table.form th,table.form td{border:1px solid var(--sea-line);padding:6px 12px}
-table.form th{background:#eef7f2;font-weight:500;text-align:left;width:46%;color:#1d5547}
+table.form th,table.form td{border:1px solid var(--blue-line);padding:6px 12px}
+table.form th{background:#eef1f9;font-weight:500;text-align:left;width:46%;color:#1c3f96}
 table.form td.num{text-align:right;font-variant-numeric:tabular-nums;font-size:14px}
 table.form td.num.big{font-size:17px;font-weight:700}
 table.form td.small,table.form th.small{font-size:11.5px}
 .gauge{margin:14px 0}
 .gaugeBar{height:28px;border-radius:var(--r);overflow:hidden;display:flex;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
-.gaugeBar .gIn{background:var(--sea);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
-.gaugeBar .gOut{background:var(--coral);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+.gaugeBar .gIn{background:var(--blue);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+.gaugeBar .gOut{background:var(--orange);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
 .gauge .cap{font-size:11.5px;color:var(--sub);margin-top:3px}
 .bigScore{display:flex;gap:14px;margin:18px 0;flex-wrap:wrap;align-items:center}
-.scoreCard{flex:1;min-width:160px;border-radius:var(--r);padding:14px;text-align:center;background:#fff;box-shadow:var(--shadow)}
-.scoreCard .t{font-size:12px;color:var(--sea-deep);font-weight:700}
-.scoreCard .v{font-size:24px;font-weight:700;color:var(--sea-deep);font-variant-numeric:tabular-nums}
+.scoreCard{flex:1;min-width:160px;padding:14px;text-align:center;background:#fff;border:1px solid var(--blue-line)}
+.scoreCard .t{font-size:11.5px;color:var(--sub);font-weight:700;letter-spacing:.1em}
+.scoreCard .v{font-size:26px;font-weight:900;color:var(--blue-deep);font-variant-numeric:tabular-nums}
 .scoreCard .u{font-size:10.5px;color:var(--sub)}
-.scoreCard.neg .v{color:var(--coral)}
-.stamp{border:2.5px solid var(--coral);color:var(--coral);border-radius:50%;width:96px;height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;transform:rotate(-8deg);opacity:.9;text-align:center;line-height:1.35;flex-shrink:0}
-.sheet .foot{font-size:10.5px;color:var(--sub);margin-top:16px;border-top:1px solid var(--sea-line);padding-top:10px}
+.scoreCard.neg .v{color:var(--orange)}
+.stamp{border:2.5px solid var(--orange);color:var(--orange);border-radius:50%;width:96px;height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;transform:rotate(-8deg);opacity:.9;text-align:center;line-height:1.35;flex-shrink:0}
+.sheet .foot{font-size:10.5px;color:var(--sub);margin-top:16px;border-top:1px solid var(--blue-line);padding-top:10px}
 @media print{
   body *{visibility:hidden}
   #report,#report *{visibility:visible}
@@ -149,17 +154,17 @@ table.form td.small,table.form th.small{font-size:11.5px}
 
 <div class="wrap">
   <div class="steps noprint">
-    <button data-step="1" class="active"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> よみこむ</button>
-    <button data-step="2"><svg class="ic" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> 毎月の取引</button>
-    <button data-step="3"><svg class="ic" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> 取引先で見る</button>
-    <button data-step="4"><svg class="ic" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 大きな取引</button>
-    <button data-step="5"><svg class="ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> のこりをざっくり</button>
-    <button data-step="6"><svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> できあがり</button>
+    <button data-step="1" class="active"><span class="num">01</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> よみこむ</span></button>
+    <button data-step="2"><span class="num">02</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> 毎月の取引</span></button>
+    <button data-step="3"><span class="num">03</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> 取引先で見る</span></button>
+    <button data-step="4"><span class="num">04</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 大きな取引</span></button>
+    <button data-step="5"><span class="num">05</span><span><svg class="ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> のこりをざっくり</span></button>
+    <button data-step="6"><span class="num">06</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> できあがり</span></button>
   </div>
 
   <!-- ============ STEP 1 ============ -->
   <section class="panel show" id="panel1">
-    <h2>会計データをよみこむ</h2>
+    <h2><span class="secno">STEP 01</span>会計データをよみこむ</h2>
     <p class="lead">freeeなどの会計ソフトから書き出した取引データ（CSV）を、ぽんと入れてください。あなたの1年間のお金の流れが、どれだけ地域の中をめぐったかを読みといていきます。<b>これは税務署に出す書類をつくるアプリではありません。</b>地域との関係を読みなおすためのセルフレポートです。</p>
     <div class="note"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> CSVの内容がサーバーへ送信されることはありません。すべてあなたのブラウザの中だけで処理されます。なお、表示用のフォントとライブラリは外部CDNから読み込んでいます（会計データとは無関係の通信です）。</div>
     <div class="drop" id="csvDrop">
@@ -201,7 +206,7 @@ table.form td.small,table.form th.small{font-size:11.5px}
 
   <!-- ============ STEP 2 ============ -->
   <section class="panel" id="panel2">
-    <h2>毎月つづいている取引</h2>
+    <h2><span class="secno">STEP 02</span>毎月つづいている取引</h2>
     <p class="lead">毎月・定期的にくり返されている取引をまとめました。月々は小さくても、1年では大きな金額です。グループごとに「地域内／地域外」を答えると、ふくまれる取引ぜんぶに一度で反映されます。</p>
     <div id="groupList"></div>
     <div class="btnrow">
@@ -212,7 +217,7 @@ table.form td.small,table.form th.small{font-size:11.5px}
 
   <!-- ============ STEP 3 ============ -->
   <section class="panel" id="panel3">
-    <h2>取引先ごとの分類候補</h2>
+    <h2><span class="secno">STEP 03</span>取引先ごとの分類候補</h2>
     <p class="lead">取引先名や品目に含まれる言葉から、地域内／地域外の<b>候補</b>を自動で付けました。これは確定ではありません。気になるものだけ直してください。</p>
     <div class="btnrow noprint" id="payeeBulk" style="margin:0 0 12px;display:none">
       <button class="btn sub mini" id="applyHighBtn">自信のある候補をまとめて適用する</button>
@@ -226,7 +231,7 @@ table.form td.small,table.form th.small{font-size:11.5px}
 
   <!-- ============ STEP 4 ============ -->
   <section class="panel" id="panel4">
-    <h2>大きな単発の取引</h2>
+    <h2><span class="secno">STEP 04</span>大きな単発の取引</h2>
     <p class="lead">ここまでで判定できなかった取引のうち、1年への影響が大きいものです。覚えていたら個別に教えてください。わからなければ飛ばしてOK（つぎのステップでざっくり推定します）。</p>
     <div id="bigList"></div>
     <div class="btnrow">
@@ -237,7 +242,7 @@ table.form td.small,table.form th.small{font-size:11.5px}
 
   <!-- ============ STEP 5 ============ -->
   <section class="panel" id="panel5">
-    <h2>のこりの取引を、ざっくり分類する</h2>
+    <h2><span class="secno">STEP 05</span>のこりの取引を、ざっくり分類する</h2>
     <p class="lead">個別に確認しなかった取引を、科目ごとに「だいたい何%が地域内か」で推定します。帳簿に支払先が残っていなくても、感覚で大丈夫。</p>
     <div class="subhead"><svg class="ic" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg> 入ってきたお金</div>
     <div id="incomeAlloc"></div>
@@ -252,7 +257,7 @@ table.form td.small,table.form th.small{font-size:11.5px}
 
   <!-- ============ STEP 6 ============ -->
   <section class="panel" id="panel6">
-    <h2>できあがり</h2>
+    <h2><span class="secno">STEP 06</span>できあがり</h2>
     <details class="scale noprint">
       <summary>ものさしを調整する（お金の「めぐる力」の見立て）</summary>
       <div class="paramBlock">
@@ -848,10 +853,10 @@ function generateReport(){
   const catRows = Object.values(r.catAgg).sort((a,b)=>b.amt-a.amt).map(c=>{
     if(c.excluded) return `<tr><th>${esc(c.name)}</th><td class="num">${fmt(c.amt)}</td><td class="num" colspan="2" style="color:#999">対象外（お金の動きなし）</td></tr>`;
     const pct = c.amt>0 ? (c.inAmt/c.amt*100).toFixed(0) : 0;
-    return `<tr><th>${esc(c.name)}　<span style="color:#578">地域内 ${pct}%</span></th>
+    return `<tr><th>${esc(c.name)}　<span style="color:#46a">地域内 ${pct}%</span></th>
       <td class="num">${fmt(c.amt)}</td>
-      <td class="num" style="color:var(--sea-deep)">${fmt(c.inAmt)}</td>
-      <td class="num" style="color:var(--coral)">${fmt(c.amt-c.inAmt)}</td></tr>`;
+      <td class="num" style="color:var(--blue-deep)">${fmt(c.inAmt)}</td>
+      <td class="num" style="color:var(--orange)">${fmt(c.amt-c.inAmt)}</td></tr>`;
   }).join("");
 
   const decidedGroups = state.groups.filter(g=>state.groupDecisions[g.id]);
@@ -894,19 +899,19 @@ function generateReport(){
     <h4 class="sec">収入 ─ そのお金はどこから来たか</h4>
     <table class="form">
       <tr><th>収入の合計</th><td class="num">${fmt(r.incomeTotal)} 円</td></tr>
-      <tr><th>うち 地域の外から（観光客・域外取引・ネット販売）　<span style="font-weight:400">100%計上</span></th><td class="num" style="color:var(--sea-deep)">${fmt(r.Ro)} 円</td></tr>
+      <tr><th>うち 地域の外から（観光客・域外取引・ネット販売）　<span style="font-weight:400">100%計上</span></th><td class="num" style="color:var(--blue-deep)">${fmt(r.Ro)} 円</td></tr>
       <tr><th>うち 地域の中から　<span style="font-weight:400">${(100-r.beta*100).toFixed(0)}%だけ計上</span></th><td class="num">${fmt(r.Ri)} 円 → ${fmt(r.Ri*(1-r.beta))} 円</td></tr>
-      <tr><th style="background:#dcefe6"><b>ローカリズム調整後の収入</b></th><td class="num big">${fmt(r.adjIncome)} 円</td></tr>
+      <tr><th style="background:#e4ebf9"><b>ローカリズム調整後の収入</b></th><td class="num big">${fmt(r.adjIncome)} 円</td></tr>
     </table>
     ${gaugeHTML(r.Ro, r.Ri, "地域の外から（外貨）", "地域の中から")}
 
     <h4 class="sec">支出 ─ そのお金はどこへ行ったか</h4>
     <table class="form">
-      <tr style="background:#eef7f2"><th style="width:46%">科目</th><td style="text-align:right;font-size:12px">金額</td><td style="text-align:right;font-size:12px;color:var(--sea-deep)">地域内へ</td><td style="text-align:right;font-size:12px;color:var(--coral)">地域外へ</td></tr>
+      <tr style="background:#eef1f9"><th style="width:46%">科目</th><td style="text-align:right;font-size:12px">金額</td><td style="text-align:right;font-size:12px;color:var(--blue-deep)">地域内へ</td><td style="text-align:right;font-size:12px;color:var(--orange)">地域外へ</td></tr>
       ${catRows}
-      <tr><th><b>支出合計</b>${r.depExcluded>0?`（うち${fmt(r.depExcluded)}円は減価償却費として対象外）`:""}</th><td class="num">${fmt(r.totalExp)}</td><td class="num" style="color:var(--sea-deep)">${fmt(r.Si)}</td><td class="num" style="color:var(--coral)">${fmt(r.So)}</td></tr>
+      <tr><th><b>支出合計</b>${r.depExcluded>0?`（うち${fmt(r.depExcluded)}円は減価償却費として対象外）`:""}</th><td class="num">${fmt(r.totalExp)}</td><td class="num" style="color:var(--blue-deep)">${fmt(r.Si)}</td><td class="num" style="color:var(--orange)">${fmt(r.So)}</td></tr>
       <tr><th>地域内への支払いは ${(r.alpha*100).toFixed(0)}% 残るとみなすと、流出はこれだけ</th><td class="num" colspan="3">${fmt(r.Si)} 円 → ${fmt(r.Si*(1-r.alpha))} 円</td></tr>
-      <tr><th style="background:#dcefe6"><b>ローカリズム調整後の流出</b></th><td class="num big" colspan="3">${fmt(r.adjLoss)} 円</td></tr>
+      <tr><th style="background:#e4ebf9"><b>ローカリズム調整後の流出</b></th><td class="num big" colspan="3">${fmt(r.adjLoss)} 円</td></tr>
     </table>
     ${gaugeHTML(r.Si, r.So, "地域内へ", "地域外・チェーンへ")}
 
@@ -919,7 +924,7 @@ function generateReport(){
     <h4 class="sec">まとめ</h4>
     <table class="form">
       <tr><th>ローカリズム調整後の収入 − 調整後の流出</th><td class="num">${fmt(r.adjIncome - r.adjLoss)} 円</td></tr>
-      <tr><th style="background:#dcefe6"><b>地域還流バランス</b>（外貨 ${fmt(r.Ro)} ＋ 地域内残留 ${fmt(r.Si*r.alpha)} − 域外流出 ${fmt(r.So)}）</th><td class="num big" style="color:${r.balance>=0?"var(--sea-deep)":"var(--coral)"}">${fmt(r.balance)} 円</td></tr>
+      <tr><th style="background:#e4ebf9"><b>地域還流バランス</b>（外貨 ${fmt(r.Ro)} ＋ 地域内残留 ${fmt(r.Si*r.alpha)} − 域外流出 ${fmt(r.So)}）</th><td class="num big" style="color:${r.balance>=0?"var(--blue-deep)":"var(--orange)"}">${fmt(r.balance)} 円</td></tr>
     </table>
 
     <div class="foot">
