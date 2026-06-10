@@ -673,6 +673,7 @@ function importDeals(text){
   }
 
   buildExpenseTable();
+  allCats().forEach(c=>{ const el = document.getElementById("exp_"+c.key); if(el) el.value = ""; });
   document.getElementById("incomeTotal").value = incomeSum || "";
   document.getElementById("incomeOther").value = incomeOtherSum || "";
   for(const [k,v] of Object.entries(catSums)){
