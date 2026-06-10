@@ -21,10 +21,10 @@ body{margin:0;font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hir
 body::before{content:"";display:block;height:5px;background:linear-gradient(90deg,var(--blue) 0 62%,var(--orange) 62% 86%,var(--sun) 86% 100%)}
 .ic{width:1.05em;height:1.05em;vertical-align:-0.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ic.lg{width:30px;height:30px;display:block;margin:0 auto 8px;color:var(--blue)}
-header.app{padding:36px 20px 6px;text-align:center}
-header.app .eyebrow{font-size:11px;letter-spacing:.46em;color:var(--orange);font-weight:700;margin-bottom:4px}
-header.app h1{font-size:30px;margin:0;letter-spacing:.14em;color:var(--ink);font-weight:900}
-header.app .tagline{font-size:13px;color:var(--sub);margin-top:8px;letter-spacing:.05em}
+header.app{padding:36px 12px 6px;text-align:center}
+header.app .eyebrow{font-size:clamp(9px,2.6vw,11px);letter-spacing:.46em;color:var(--orange);font-weight:700;margin-bottom:4px}
+header.app h1{font-size:clamp(19px,6vw,30px);margin:0;letter-spacing:.14em;color:var(--ink);font-weight:900;white-space:nowrap}
+header.app .tagline{font-size:clamp(11.5px,3.3vw,13px);color:var(--sub);margin:8px auto 0;letter-spacing:.05em;max-width:620px;text-wrap:balance}
 header.app .badges{margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .badge{font-size:11.5px;background:var(--blue-pale);color:var(--blue-deep);border-radius:var(--r);padding:3px 14px}
 .badge.coral{background:var(--orange-pale);color:#b35a14}
@@ -39,7 +39,8 @@ header.app .badges{margin-top:10px;display:flex;gap:8px;justify-content:center;f
 @media(max-width:720px){.steps{grid-template-columns:repeat(3,1fr)}}
 .panel{display:none;background:var(--card);border:1px solid var(--line);padding:28px 28px 24px}
 .panel.show{display:block}
-.panel h2{margin:0 0 4px;font-size:20px;color:var(--ink);font-weight:900;letter-spacing:.04em}
+@media(max-width:560px){.panel{padding:20px 14px 18px}.wrap{padding:10px 10px 50px}}
+.panel h2{margin:0 0 4px;font-size:clamp(17px,4.6vw,20px);color:var(--ink);font-weight:900;letter-spacing:.04em;text-wrap:balance}
 .panel h2 .secno{display:block;font-size:11px;letter-spacing:.34em;color:var(--orange);font-weight:700;margin-bottom:2px}
 .panel p.lead{margin:4px 0 16px;font-size:13.5px;color:var(--sub)}
 .note{background:var(--blue-pale);border-radius:var(--r);padding:12px 16px;font-size:12.5px;margin:12px 0}
@@ -108,8 +109,9 @@ details.scale summary{cursor:pointer;font-weight:700;color:var(--blue-deep)}
 /* ===== report ===== */
 #report{display:none;margin-top:18px}
 .sheet{background:var(--paper);border:2px solid var(--blue);padding:26px 30px;max-width:880px;margin:0 auto;color:#22262f;box-shadow:var(--shadow)}
+@media(max-width:560px){.sheet{padding:16px 12px}}
 .sheet .formhead{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px double var(--blue);padding-bottom:10px;flex-wrap:wrap;gap:8px}
-.sheet .formhead h3{margin:0;font-size:22px;letter-spacing:.08em;color:var(--blue-deep)}
+.sheet .formhead h3{margin:0;font-size:clamp(16px,4.8vw,22px);letter-spacing:.08em;color:var(--blue-deep);white-space:nowrap}
 .sheet .formhead .era{font-size:12.5px;color:var(--sub)}
 .sheet .formhead .fa{border:1.5px solid var(--blue);padding:2px 12px;font-size:12px;color:var(--blue-deep)}
 .sheet .stance{font-size:11.5px;color:var(--sub);margin-top:8px}
@@ -125,13 +127,13 @@ table.form td.small,table.form th.small{font-size:11.5px}
 .gaugeBar .gIn{background:var(--blue);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
 .gaugeBar .gOut{background:var(--orange);color:#fff;font-size:11.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
 .gauge .cap{font-size:11.5px;color:var(--sub);margin-top:3px}
-.bigScore{display:flex;gap:14px;margin:18px 0;flex-wrap:wrap;align-items:center}
-.scoreCard{flex:1;min-width:160px;padding:14px;text-align:center;background:#fff;border:1px solid var(--blue-line)}
+.bigScore{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));grid-auto-rows:1fr;gap:14px;margin:18px 0}
+.scoreCard{flex:1;min-width:160px;padding:14px;text-align:center;background:#fff;border:1px solid var(--blue-line);display:flex;flex-direction:column;justify-content:center;gap:2px}
 .scoreCard .t{font-size:11.5px;color:var(--sub);font-weight:700;letter-spacing:.1em}
 .scoreCard .v{font-size:26px;font-weight:900;color:var(--blue-deep);font-variant-numeric:tabular-nums}
-.scoreCard .u{font-size:10.5px;color:var(--sub)}
+.scoreCard .u{font-size:10.5px;color:var(--sub);text-wrap:balance}
 .scoreCard.neg .v{color:var(--orange)}
-.stamp{border:2.5px solid var(--orange);color:var(--orange);border-radius:50%;width:96px;height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;transform:rotate(-8deg);opacity:.9;text-align:center;line-height:1.35;flex-shrink:0}
+.stamp{border:2.5px solid var(--orange);color:var(--orange);border-radius:50%;width:96px;height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;transform:rotate(-8deg);opacity:.9;text-align:center;line-height:1.35;grid-column:1/-1;justify-self:center;align-self:center}
 .sheet .foot{font-size:10.5px;color:var(--sub);margin-top:16px;border-top:1px solid var(--blue-line);padding-top:10px}
 @media print{
   body *{visibility:hidden}
@@ -158,7 +160,7 @@ table.form td.small,table.form th.small{font-size:11.5px}
     <button data-step="2"><span class="num">02</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> 毎月の取引</span></button>
     <button data-step="3"><span class="num">03</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> 取引先で見る</span></button>
     <button data-step="4"><span class="num">04</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 大きな取引</span></button>
-    <button data-step="5"><span class="num">05</span><span><svg class="ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> のこりをざっくり</span></button>
+    <button data-step="5"><span class="num">05</span><span><svg class="ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> ざっくり分類</span></button>
     <button data-step="6"><span class="num">06</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> できあがり</span></button>
   </div>
 
