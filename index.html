@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ローカリズム確定申告書</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 /* タイトル11文字のみの埋め込みサブセット（Zen Kaku Gothic New Black / OFL）
@@ -24,13 +25,16 @@ body{margin:0;font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hir
 body::before{content:"";display:block;height:5px;background:linear-gradient(90deg,var(--blue) 0 62%,var(--orange) 62% 86%,var(--sun) 86% 100%)}
 .ic{width:1.05em;height:1.05em;vertical-align:-0.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ic.lg{width:30px;height:30px;display:block;margin:0 auto 8px;color:var(--blue)}
-header.app{padding:36px 12px 6px;text-align:center}
+header.app{padding:36px 12px 6px;text-align:center;position:relative}
 header.app .eyebrow{font-size:clamp(9px,2.6vw,11px);letter-spacing:.46em;color:var(--orange);font-weight:700;margin-bottom:4px}
 header.app h1{font-family:"ZKGN-Title","Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",sans-serif;font-size:clamp(19px,6vw,30px);margin:0;letter-spacing:.14em;color:var(--ink);font-weight:900;white-space:nowrap}
 header.app .tagline{font-size:clamp(11.5px,3.3vw,13px);color:var(--sub);margin:8px auto 0;letter-spacing:.05em;max-width:620px;text-wrap:balance}
 header.app .badges{margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .badge{font-size:11.5px;background:var(--blue-pale);color:var(--blue-deep);border-radius:var(--r);padding:3px 14px}
 .badge.coral{background:var(--orange-pale);color:#b35a14}
+.langSw{position:absolute;top:10px;right:12px;display:flex;gap:1px;border:1px solid var(--line);background:var(--line)}
+.langSw button{border:none;background:var(--card);padding:4px 12px;font-size:11px;letter-spacing:.12em;cursor:pointer;font-family:inherit;font-weight:700;color:var(--sub)}
+.langSw button.active{background:var(--ink);color:#fff}
 .wrap{max-width:1060px;margin:0 auto;padding:14px 16px 60px}
 /* steps — 6等分グリッド */
 .steps{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;margin:18px 0 26px;background:var(--line);border:1px solid var(--line)}
@@ -148,149 +152,150 @@ table.form td.small,table.form th.small{font-size:11.5px}
 </head>
 <body>
 <header class="app">
-  <div class="eyebrow">LOCALISM TAX RETURN</div>
-  <h1>ローカリズム確定申告書</h1>
-  <div class="tagline">会計データを、地域との関係を読みなおすための素材に。— 地域経済循環レポート</div>
+  <div class="langSw noprint"><button id="langJa" class="active">日本語</button><button id="langEn">EN</button></div>
+  <div class="eyebrow" data-i18n="eyebrow">LOCALISM TAX RETURN</div>
+  <h1 data-i18n="title">ローカリズム確定申告書</h1>
+  <div class="tagline" data-i18n="tagline">会計データを、地域との関係を読みなおすための素材に。— 地域経済循環レポート</div>
   <div class="badges">
-    <span class="badge"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 会計データはどこにも送信されません</span>
-    <span class="badge coral">プロトタイプ</span>
+    <span class="badge"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span data-i18n="badgeLock">会計データはどこにも送信されません</span></span>
+    <span class="badge coral" data-i18n="badgeProto">プロトタイプ</span>
   </div>
 </header>
 
 <div class="wrap">
   <div class="steps noprint">
-    <button data-step="1" class="active"><span class="num">01</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> よみこむ</span></button>
-    <button data-step="2"><span class="num">02</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> 毎月の取引</span></button>
-    <button data-step="3"><span class="num">03</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> 取引先で見る</span></button>
-    <button data-step="4"><span class="num">04</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 大きな取引</span></button>
-    <button data-step="5"><span class="num">05</span><span><svg class="ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> ざっくり分類</span></button>
-    <button data-step="6"><span class="num">06</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> できあがり</span></button>
+    <button data-step="1" class="active"><span class="num">01</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> <span data-i18n="tab1">よみこむ</span></span></button>
+    <button data-step="2"><span class="num">02</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> <span data-i18n="tab2">毎月の取引</span></span></button>
+    <button data-step="3"><span class="num">03</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> <span data-i18n="tab3">取引先で見る</span></span></button>
+    <button data-step="4"><span class="num">04</span><span><svg class="ic" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> <span data-i18n="tab4">大きな取引</span></span></button>
+    <button data-step="5"><span class="num">05</span><span><svg class="ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> <span data-i18n="tab5">ざっくり分類</span></span></button>
+    <button data-step="6"><span class="num">06</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> <span data-i18n="tab6">できあがり</span></span></button>
   </div>
 
   <!-- ============ STEP 1 ============ -->
   <section class="panel show" id="panel1">
-    <h2><span class="secno">STEP 01</span>会計データをよみこむ</h2>
-    <p class="lead">freeeなどの会計ソフトから書き出した取引データ（CSV）を、ぽんと入れてください。あなたの1年間のお金の流れが、どれだけ地域の中をめぐったかを読みといていきます。<b>これは税務署に出す書類をつくるアプリではありません。</b>地域との関係を読みなおすためのセルフレポートです。</p>
-    <div class="note"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> CSVの内容がサーバーへ送信されることはありません。すべてあなたのブラウザの中だけで処理されます。なお、表示用のフォントとライブラリは外部CDNから読み込んでいます（会計データとは無関係の通信です）。</div>
+    <h2><span class="secno">STEP 01</span><span data-i18n="h1_1">会計データをよみこむ</span></h2>
+    <p class="lead" data-i18n="lead1">freeeなどの会計ソフトから書き出した取引データ（CSV）を、ぽんと入れてください。あなたの1年間のお金の流れが、どれだけ地域の中をめぐったかを読みといていきます。<b>これは税務署に出す書類をつくるアプリではありません。</b>地域との関係を読みなおすためのセルフレポートです。</p>
+    <div class="note"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span data-i18n="note1">CSVの内容がサーバーへ送信されることはありません。すべてあなたのブラウザの中だけで処理されます。なお、表示用のフォントとライブラリは外部CDNから読み込んでいます（会計データとは無関係の通信です）。</span></div>
     <div class="drop" id="csvDrop">
       <svg class="ic lg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      ここに取引データのCSVをドラッグ＆ドロップ<br>または<b>クリックしてファイルを選ぶ</b>
-      <span class="small">freee形式（収支区分・勘定科目・金額…）に対応。Shift-JISでもUTF-8でも大丈夫</span>
+      <span data-i18n="dropMain">ここに取引データのCSVをドラッグ＆ドロップ<br>または<b>クリックしてファイルを選ぶ</b></span>
+      <span class="small" data-i18n="dropSmall">freee形式（収支区分・勘定科目・金額…）に対応。Shift-JISでもUTF-8でも大丈夫</span>
       <input type="file" id="csvInput" accept=".csv,text/csv" style="display:none">
     </div>
     <div class="csvSummary" id="csvSummary"></div>
     <div class="setGrid">
       <div class="setBlock">
-        <label class="title">対象の年度</label>
-        <input type="text" id="yearLabel" placeholder="例: 2025年（令和7年）分">
+        <label class="title" data-i18n="setYear">対象の年度</label>
+        <input type="text" id="yearLabel" data-i18n-ph="phYear" placeholder="例: 2025年（令和7年）分">
       </div>
       <div class="setBlock">
-        <label class="title">屋号・お名前（レポートに載せたい場合だけ）</label>
-        <input type="text" id="ownerName" placeholder="空欄でもOK">
+        <label class="title" data-i18n="setOwner">屋号・お名前（レポートに載せたい場合だけ）</label>
+        <input type="text" id="ownerName" data-i18n-ph="phOwner" placeholder="空欄でもOK">
       </div>
       <div class="setBlock">
-        <label class="title">あなたの島・地域の名前</label>
+        <label class="title" data-i18n="setRegion">あなたの島・地域の名前</label>
         <input type="text" id="regionName" value="石垣島">
       </div>
       <div class="setBlock">
-        <label class="title">地域のことば（自動判定に使うキーワード）</label>
-        <div class="desc">取引先名にこれらの言葉が含まれていたら「地域内かも」と推測します。「、」区切りで自由に足せます。</div>
+        <label class="title" data-i18n="setKw">地域のことば（自動判定に使うキーワード）</label>
+        <div class="desc" data-i18n="setKwDesc">取引先名にこれらの言葉が含まれていたら「地域内かも」と推測します。「、」区切りで自由に足せます。</div>
         <textarea id="regionKeywords"></textarea>
       </div>
       <div class="setBlock">
-        <label class="title">このブラウザへの保存</label>
-        <div class="desc">読み込んだ明細と振り分けの答えを、このブラウザの中（localStorage）にだけ保存します。共有PCではオフにしてください。</div>
-        <label style="font-size:13px"><input type="checkbox" id="persistChk" checked> このブラウザに保存する</label><br>
-        <button class="btn sub mini" id="wipeBtn" style="margin-top:8px"><svg class="ic" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> 保存データをすべて削除</button>
+        <label class="title" data-i18n="setSave">このブラウザへの保存</label>
+        <div class="desc" data-i18n="setSaveDesc">読み込んだ明細と振り分けの答えを、このブラウザの中（localStorage）にだけ保存します。共有PCではオフにしてください。</div>
+        <label style="font-size:13px"><input type="checkbox" id="persistChk" checked> <span data-i18n="setSaveChk">このブラウザに保存する</span></label><br>
+        <button class="btn sub mini" id="wipeBtn" style="margin-top:8px"><svg class="ic" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> <span data-i18n="wipeBtn">保存データをすべて削除</span></button>
       </div>
     </div>
     <div class="btnrow">
-      <button class="btn" onclick="gotoStep(2)">つぎへ：毎月の取引を見る →</button>
+      <button class="btn" onclick="gotoStep(2)" data-i18n="next1">つぎへ：毎月の取引を見る →</button>
     </div>
   </section>
 
   <!-- ============ STEP 2 ============ -->
   <section class="panel" id="panel2">
-    <h2><span class="secno">STEP 02</span>毎月つづいている取引</h2>
-    <p class="lead">毎月・定期的にくり返されている取引をまとめました。月々は小さくても、1年では大きな金額です。グループごとに「地域内／地域外」を答えると、ふくまれる取引ぜんぶに一度で反映されます。</p>
+    <h2><span class="secno">STEP 02</span><span data-i18n="h2_1">毎月つづいている取引</span></h2>
+    <p class="lead" data-i18n="lead2">毎月・定期的にくり返されている取引をまとめました。月々は小さくても、1年では大きな金額です。グループごとに「地域内／地域外」を答えると、ふくまれる取引ぜんぶに一度で反映されます。</p>
     <div id="groupList"></div>
     <div class="btnrow">
-      <button class="btn sub" onclick="gotoStep(1)">← もどる</button>
-      <button class="btn" onclick="gotoStep(3)">つぎへ：取引先で見る →</button>
+      <button class="btn sub" onclick="gotoStep(1)" data-i18n="back">← もどる</button>
+      <button class="btn" onclick="gotoStep(3)" data-i18n="next2">つぎへ：取引先で見る →</button>
     </div>
   </section>
 
   <!-- ============ STEP 3 ============ -->
   <section class="panel" id="panel3">
-    <h2><span class="secno">STEP 03</span>取引先ごとの分類候補</h2>
-    <p class="lead">取引先名や品目に含まれる言葉から、地域内／地域外の<b>候補</b>を自動で付けました。これは確定ではありません。気になるものだけ直してください。</p>
+    <h2><span class="secno">STEP 03</span><span data-i18n="h3_1">取引先ごとの分類候補</span></h2>
+    <p class="lead" data-i18n="lead3">取引先名や品目に含まれる言葉から、地域内／地域外の<b>候補</b>を自動で付けました。これは確定ではありません。気になるものだけ直してください。</p>
     <div class="btnrow noprint" id="payeeBulk" style="margin:0 0 12px;display:none">
-      <button class="btn sub mini" id="applyHighBtn">自信のある候補をまとめて適用する</button>
+      <button class="btn sub mini" id="applyHighBtn" data-i18n="applyHigh">自信のある候補をまとめて適用する</button>
     </div>
     <div id="payeeList"></div>
     <div class="btnrow">
-      <button class="btn sub" onclick="gotoStep(2)">← もどる</button>
-      <button class="btn" onclick="gotoStep(4)">つぎへ：大きな取引を見る →</button>
+      <button class="btn sub" onclick="gotoStep(2)" data-i18n="back">← もどる</button>
+      <button class="btn" onclick="gotoStep(4)" data-i18n="next3">つぎへ：大きな取引を見る →</button>
     </div>
   </section>
 
   <!-- ============ STEP 4 ============ -->
   <section class="panel" id="panel4">
-    <h2><span class="secno">STEP 04</span>大きな単発の取引</h2>
-    <p class="lead">ここまでで判定できなかった取引のうち、1年への影響が大きいものです。覚えていたら個別に教えてください。わからなければ飛ばしてOK（つぎのステップでざっくり推定します）。</p>
+    <h2><span class="secno">STEP 04</span><span data-i18n="h4_1">大きな単発の取引</span></h2>
+    <p class="lead" data-i18n="lead4">ここまでで判定できなかった取引のうち、1年への影響が大きいものです。覚えていたら個別に教えてください。わからなければ飛ばしてOK（つぎのステップでざっくり推定します）。</p>
     <div id="bigList"></div>
     <div class="btnrow">
-      <button class="btn sub" onclick="gotoStep(3)">← もどる</button>
-      <button class="btn" onclick="gotoStep(5)">つぎへ：のこりをざっくり →</button>
+      <button class="btn sub" onclick="gotoStep(3)" data-i18n="back">← もどる</button>
+      <button class="btn" onclick="gotoStep(5)" data-i18n="next4">つぎへ：のこりをざっくり →</button>
     </div>
   </section>
 
   <!-- ============ STEP 5 ============ -->
   <section class="panel" id="panel5">
-    <h2><span class="secno">STEP 05</span>のこりの取引を、ざっくり分類する</h2>
-    <p class="lead">個別に確認しなかった取引を、科目ごとに「だいたい何%が地域内か」で推定します。帳簿に支払先が残っていなくても、感覚で大丈夫。</p>
-    <div class="subhead"><svg class="ic" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg> 入ってきたお金</div>
+    <h2><span class="secno">STEP 05</span><span data-i18n="h5_1">のこりの取引を、ざっくり分類する</span></h2>
+    <p class="lead" data-i18n="lead5">個別に確認しなかった取引を、科目ごとに「だいたい何%が地域内か」で推定します。帳簿に支払先が残っていなくても、感覚で大丈夫。</p>
+    <div class="subhead"><svg class="ic" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg> <span data-i18n="subIn">入ってきたお金</span></div>
     <div id="incomeAlloc"></div>
-    <div class="subhead"><svg class="ic" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg> 出ていったお金</div>
+    <div class="subhead"><svg class="ic" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg> <span data-i18n="subOut">出ていったお金</span></div>
     <div id="expenseAlloc"></div>
-    <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> まよったら：仕入先が島の商店なら「島内」、Amazonや本土の問屋なら「島外」。お給料はスタッフが島の人なら「島内」。半々ならスライダーを真ん中へ。これは推定値として扱われます。</div>
+    <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> <span data-i18n="note5">まよったら：仕入先が島の商店なら「島内」、Amazonや本土の問屋なら「島外」。お給料はスタッフが島の人なら「島内」。半々ならスライダーを真ん中へ。これは推定値として扱われます。</span></div>
     <div class="btnrow">
-      <button class="btn sub" onclick="gotoStep(4)">← もどる</button>
-      <button class="btn coral" onclick="gotoStep(6);generateReport()">ローカリズム確定申告書をつくる →</button>
+      <button class="btn sub" onclick="gotoStep(4)" data-i18n="back">← もどる</button>
+      <button class="btn coral" onclick="gotoStep(6);generateReport()" data-i18n="next5">ローカリズム確定申告書をつくる →</button>
     </div>
   </section>
 
   <!-- ============ STEP 6 ============ -->
   <section class="panel" id="panel6">
-    <h2><span class="secno">STEP 06</span>できあがり</h2>
+    <h2><span class="secno">STEP 06</span><span data-i18n="h6_1">できあがり</span></h2>
     <details class="scale noprint">
-      <summary>ものさしを調整する（お金の「めぐる力」の見立て）</summary>
+      <summary data-i18n="scaleSummary">ものさしを調整する（お金の「めぐる力」の見立て）</summary>
       <div class="paramBlock">
-        <label class="title">地域内に払ったお金は、<span id="alphaVal" class="pctIn">90</span>% 地域に残るとみなす</label>
-        <div class="desc">地域のお店に払った10,000円のうち「外に出ていった」と数えるのは1,000円だけ、という考え方です。</div>
+        <label class="title"><span data-i18n="pAlpha1">地域内に払ったお金は、</span><span id="alphaVal" class="pctIn">90</span><span data-i18n="pAlpha2">% 地域に残るとみなす</span></label>
+        <div class="desc" data-i18n="pAlphaDesc">地域のお店に払った10,000円のうち「外に出ていった」と数えるのは1,000円だけ、という考え方です。</div>
         <input type="range" id="alpha" min="0" max="100" step="5" value="90">
       </div>
       <div class="paramBlock">
-        <label class="title">地域の中からもらったお金は、<span id="betaVal" class="pctIn">90</span>% 減らして数える</label>
-        <div class="desc">島のお客さんからの売上は「地域の中でお金が動いただけ」。島外からの売上は新しいお金を連れてきた「外貨」なので100%数えます。</div>
+        <label class="title"><span data-i18n="pBeta1">地域の中からもらったお金は、</span><span id="betaVal" class="pctIn">90</span><span data-i18n="pBeta2">% 減らして数える</span></label>
+        <div class="desc" data-i18n="pBetaDesc">島のお客さんからの売上は「地域の中でお金が動いただけ」。島外からの売上は新しいお金を連れてきた「外貨」なので100%数えます。</div>
         <input type="range" id="beta" min="0" max="100" step="5" value="90">
       </div>
       <div class="paramBlock">
-        <label class="title">「一部地域内」は <span id="partialVal" class="pctIn">30</span>% 地域内あつかい</label>
-        <div class="desc">地域に店舗のある全国チェーンなど。地元の雇用や家賃のぶんだけ地域に残る、という見立てです。</div>
+        <label class="title"><span data-i18n="pPartial1">「一部地域内」は </span><span id="partialVal" class="pctIn">30</span><span data-i18n="pPartial2">% 地域内あつかい</span></label>
+        <div class="desc" data-i18n="pPartialDesc">地域に店舗のある全国チェーンなど。地元の雇用や家賃のぶんだけ地域に残る、という見立てです。</div>
         <input type="range" id="partialRate" min="0" max="100" step="5" value="30">
       </div>
       <div class="paramBlock">
-        <label class="title">減価償却費のあつかい</label>
-        <label style="font-size:12.5px"><input type="radio" name="depMode" value="exclude" checked> お金の動きがないので流出に数えない（おすすめ）</label><br>
-        <label style="font-size:12.5px"><input type="radio" name="depMode" value="include"> ほかの経費と同じように数える</label>
+        <label class="title" data-i18n="pDep">減価償却費のあつかい</label>
+        <label style="font-size:12.5px"><input type="radio" name="depMode" value="exclude" checked> <span data-i18n="pDepEx">お金の動きがないので流出に数えない（おすすめ）</span></label><br>
+        <label style="font-size:12.5px"><input type="radio" name="depMode" value="include"> <span data-i18n="pDepIn">ほかの経費と同じように数える</span></label>
       </div>
     </details>
     <div class="btnrow noprint" style="margin:4px 0 14px">
-      <button class="btn" onclick="generateReport()"><svg class="ic" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> つくりなおす</button>
-      <button class="btn sub" onclick="downloadReport()"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> HTMLで保存</button>
-      <button class="btn sub" onclick="window.print()"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> 印刷する</button>
-      <button class="btn sub" onclick="gotoStep(5)">← もどる</button>
+      <button class="btn" onclick="generateReport()"><svg class="ic" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> <span data-i18n="btnRegen">つくりなおす</span></button>
+      <button class="btn sub" onclick="downloadReport()"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> <span data-i18n="btnSave">HTMLで保存</span></button>
+      <button class="btn sub" onclick="window.print()"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> <span data-i18n="btnPrint">印刷する</span></button>
+      <button class="btn sub" onclick="gotoStep(5)" data-i18n="back">← もどる</button>
     </div>
     <div id="report"></div>
   </section>
@@ -298,10 +303,268 @@ table.form td.small,table.form th.small{font-size:11.5px}
 
 <script>
 /* ================================================================
-   ローカリズム確定申告書 v4 — 会計CSV単体運用
+   ローカリズム確定申告書 v5 — 会計CSV単体運用 + 日英バイリンガル
    4段構え: 継続取引 → 取引先候補分類 → 大口単発 → 科目別スライダー
    すべての処理はブラウザ内で完結（会計データはどこにも送信されない）
 ================================================================ */
+
+/* ---------- 言語 ---------- */
+let LANG = localStorage.getItem("localism-lang") || "ja";
+const DICT = {
+ja: {
+  eyebrow:"LOCALISM TAX RETURN", title:"ローカリズム確定申告書",
+  tagline:"会計データを、地域との関係を読みなおすための素材に。— 地域経済循環レポート",
+  badgeLock:"会計データはどこにも送信されません", badgeProto:"プロトタイプ",
+  tab1:"よみこむ", tab2:"毎月の取引", tab3:"取引先で見る", tab4:"大きな取引", tab5:"ざっくり分類", tab6:"できあがり",
+  h1_1:"会計データをよみこむ",
+  lead1:"freeeなどの会計ソフトから書き出した取引データ（CSV）を、ぽんと入れてください。あなたの1年間のお金の流れが、どれだけ地域の中をめぐったかを読みといていきます。<b>これは税務署に出す書類をつくるアプリではありません。</b>地域との関係を読みなおすためのセルフレポートです。",
+  note1:"CSVの内容がサーバーへ送信されることはありません。すべてあなたのブラウザの中だけで処理されます。なお、表示用のフォントとライブラリは外部CDNから読み込んでいます（会計データとは無関係の通信です）。",
+  dropMain:"ここに取引データのCSVをドラッグ＆ドロップ<br>または<b>クリックしてファイルを選ぶ</b>",
+  dropSmall:"freee形式（収支区分・勘定科目・金額…）に対応。Shift-JISでもUTF-8でも大丈夫",
+  setYear:"対象の年度", phYear:"例: 2025年（令和7年）分",
+  setOwner:"屋号・お名前（レポートに載せたい場合だけ）", phOwner:"空欄でもOK",
+  setRegion:"あなたの島・地域の名前",
+  setKw:"地域のことば（自動判定に使うキーワード）",
+  setKwDesc:"取引先名にこれらの言葉が含まれていたら「地域内かも」と推測します。「、」区切りで自由に足せます。",
+  setSave:"このブラウザへの保存",
+  setSaveDesc:"読み込んだ明細と振り分けの答えを、このブラウザの中（localStorage）にだけ保存します。共有PCではオフにしてください。",
+  setSaveChk:"このブラウザに保存する", wipeBtn:"保存データをすべて削除",
+  next1:"つぎへ：毎月の取引を見る →", back:"← もどる",
+  h2_1:"毎月つづいている取引",
+  lead2:"毎月・定期的にくり返されている取引をまとめました。月々は小さくても、1年では大きな金額です。グループごとに「地域内／地域外」を答えると、ふくまれる取引ぜんぶに一度で反映されます。",
+  next2:"つぎへ：取引先で見る →",
+  h3_1:"取引先ごとの分類候補",
+  lead3:"取引先名や品目に含まれる言葉から、地域内／地域外の<b>候補</b>を自動で付けました。これは確定ではありません。気になるものだけ直してください。",
+  applyHigh:"自信のある候補をまとめて適用する",
+  next3:"つぎへ：大きな取引を見る →",
+  h4_1:"大きな単発の取引",
+  lead4:"ここまでで判定できなかった取引のうち、1年への影響が大きいものです。覚えていたら個別に教えてください。わからなければ飛ばしてOK（つぎのステップでざっくり推定します）。",
+  next4:"つぎへ：のこりをざっくり →",
+  h5_1:"のこりの取引を、ざっくり分類する",
+  lead5:"個別に確認しなかった取引を、科目ごとに「だいたい何%が地域内か」で推定します。帳簿に支払先が残っていなくても、感覚で大丈夫。",
+  subIn:"入ってきたお金", subOut:"出ていったお金",
+  note5:"まよったら：仕入先が島の商店なら「島内」、Amazonや本土の問屋なら「島外」。お給料はスタッフが島の人なら「島内」。半々ならスライダーを真ん中へ。これは推定値として扱われます。",
+  next5:"ローカリズム確定申告書をつくる →",
+  h6_1:"できあがり",
+  scaleSummary:"ものさしを調整する（お金の「めぐる力」の見立て）",
+  pAlpha1:"地域内に払ったお金は、", pAlpha2:"% 地域に残るとみなす",
+  pAlphaDesc:"地域のお店に払った10,000円のうち「外に出ていった」と数えるのは1,000円だけ、という考え方です。",
+  pBeta1:"地域の中からもらったお金は、", pBeta2:"% 減らして数える",
+  pBetaDesc:"島のお客さんからの売上は「地域の中でお金が動いただけ」。島外からの売上は新しいお金を連れてきた「外貨」なので100%数えます。",
+  pPartial1:"「一部地域内」は ", pPartial2:"% 地域内あつかい",
+  pPartialDesc:"地域に店舗のある全国チェーンなど。地元の雇用や家賃のぶんだけ地域に残る、という見立てです。",
+  pDep:"減価償却費のあつかい",
+  pDepEx:"お金の動きがないので流出に数えない（おすすめ）", pDepIn:"ほかの経費と同じように数える",
+  btnRegen:"つくりなおす", btnSave:"HTMLで保存", btnPrint:"印刷する",
+  /* 動的 */
+  inc:"収入", exp:"支出", incexp:"収支",
+  decIn:"地域内", decPartial:"一部地域内", decExt:"地域外",
+  incFrom:"地域の中から", incOut:"地域の外から",
+  candIn:"地域内候補", candExt:"地域外候補", candPartial:"一部地域内候補",
+  candNone:"候補なし", confHi:"自信高", confMid:"自信中",
+  rExt:k=>`「${k}」が全国・海外サービスの辞書に一致`,
+  rPartial:k=>`「${k}」が全国チェーンの辞書に一致（店舗は地域内でも資本は地域外）`,
+  rRegion:k=>`地域のことば「${k}」に一致`,
+  rHint:k=>`「${k}」からオンラインサービスの支払いと推測`,
+  rNone:"判定に使える言葉が見つかりません", rEmpty:"判定材料がありません",
+  yen:n=>`${n} 円`,
+  noData:"まだ取引データがありません。ステップ1でCSVを読み込んでくださいね。",
+  noGroups:"毎月くり返されている取引は見つかりませんでした。そのまま次へ進んでください。",
+  gMeta:(c,m,mo)=>`${c}回・${m}か月にわたって発生 ／ 毎回 約${mo}円 ／ 科目: `,
+  gUnnamed:(cat,amt)=>`${cat}（毎回 約${amt}円）`,
+  gProgress:(a,b)=>`${a}グループ中 ${b}グループに答えました。ぜんぶ答えなくても大丈夫です。`,
+  pyEmpty:"このデータには取引先名や品目がほとんど入っていないため、ここはスキップでOKです。つぎの「大きな取引」へ進んでください。",
+  pyMeta:(tt,c)=>`年間 ${tt} 円・${c}件`, pyCats:"科目: ",
+  pyNoHigh:"自信「高」の未適用候補はありませんでした。",
+  bigInc:"大きめの収入", bigExp:"大きめの支出",
+  bigNone:"個別に確認したほうがよい大きな取引は残っていません。つぎへどうぞ。",
+  slIncTitle:"売上（まだ判定していない分）",
+  slIncAmt:(r,c,tt)=>`のこり ${r} 円・${c}件（収入全体 ${tt}円）`,
+  slIncQ:"のこりの売上は、だいたいどこから来ましたか？ 観光客・地域外の取引先・ネット販売は「地域の外から」です。",
+  slIncDone:"収入はすべて個別に判定済みです。", slExpDone:"支出はすべて個別に判定済みです。",
+  slRemain:(r,c)=>`のこり ${r} 円・${c}件`,
+  slGenericQ:n=>`「${n}」ののこりは、どれくらいが地域の中でしたか？`,
+  chipsExp:[["ぜんぶ地域外",0],["地域外が多め",10],["半々くらい",50],["地域内が多め",90],["ぜんぶ地域内",100]],
+  chipsInc:[["ぜんぶ中から",0],["中が多め",25],["半々くらい",50],["外が多め",75],["ぜんぶ外から",100]],
+  pctExtChain:"地域外・チェーン",
+  csvFail:"CSVが読めませんでした。",
+  csvBadFormat:"このCSVの形式には未対応です（「収支区分」「勘定科目」「金額」の列が必要です）。",
+  csvOk:(ic,it,ec,et,g)=>`読み取りました！ 収入 <b>${ic}件 ${it}円</b> ／ 支出 <b>${ec}件 ${et}円</b>。毎月つづいている取引のグループを <b>${g}個</b> 見つけました。`,
+  csvSkip:n=>`<br>※ 事業主貸・事業主借 ${n}円は経費ではないので除いています。`,
+  csvNoPayee:"<br>※ 取引先名は入っていないデータでした。だいじょうぶ、金額のパターンと科目から読みといていきます。",
+  csvRemember:"前回読み込んだ取引データを覚えています。新しいCSVを入れると上書きされます。",
+  yearSuffix:"年分",
+  wipeConfirm:"このブラウザに保存されたデータ（明細・振り分けの答え・設定）をすべて削除します。よろしいですか？",
+  /* レポート */
+  rEra:y=>`${y}${y?"の":""} 経済循環の セルフレポート`,
+  rTitle:"ローカリズム確定申告書",
+  rStance:"この書類はあなたの経済活動を採点するものではありません。お金の流れを見えるようにして、地域との関係を読みなおすためのものです。税務署に提出する書類でもありません。",
+  rS1:"収入 ─ そのお金はどこから来たか", rS2:"支出 ─ そのお金はどこへ行ったか",
+  rS3:"毎月の取引（継続取引）の内訳", rS4:"個別に確認した大きな取引", rS5:"まとめ",
+  rCirc:"地域内循環率", rCircU:r=>`支出のうち${r}の中に向かった割合`,
+  rRo:"外貨獲得額", rRoU:"地域の外から連れてきたお金（円）",
+  rSo:"域外流出額", rSoU:"地域の外へ出ていった支出（円）",
+  rBal:"地域還流バランス", rBalU:"外貨獲得 ＋ 地域内支出の残留分 − 域外流出（円）",
+  rIncTotal:"収入の合計",
+  rIncOut:"うち 地域の外から（観光客・域外取引・ネット販売）　<span style='font-weight:400'>100%計上</span>",
+  rIncIn:b=>`うち 地域の中から　<span style='font-weight:400'>${b}%だけ計上</span>`,
+  rAdjInc:"ローカリズム調整後の収入",
+  rGaugeOut:"地域の外から（外貨）", rGaugeIn:"地域の中から",
+  rCat:"科目", rAmt:"金額", rToIn:"地域内へ", rToOut:"地域外へ",
+  rExcluded:"対象外（お金の動きなし）", rCatIn:p=>`地域内 ${p}%`,
+  rExpTotal:"支出合計", rDepNote:n=>`（うち${n}円は減価償却費として対象外）`,
+  rAlphaRow:a=>`地域内への支払いは ${a}% 残るとみなすと、流出はこれだけ`,
+  rAdjLoss:"ローカリズム調整後の流出",
+  rGauge2In:"地域内へ", rGauge2Out:"地域外・チェーンへ",
+  rSummary1:"ローカリズム調整後の収入 − 調整後の流出",
+  rBalRow:(ro,si,so)=>`<b>地域還流バランス</b>（外貨 ${ro} ＋ 地域内残留 ${si} − 域外流出 ${so}）`,
+  rFoot1:(g,p,tt,d,s)=>`◎ 判定の内訳：継続取引で ${g}件、取引先名で ${p}件、個別確認で ${tt}件を判定（計${d}件）。のこり ${s}件は科目ごとの推定値です。`,
+  rFoot2:(a,b,pr,dep)=>`◎ 計算のしかた：地域内への支払いは地域の中で再びめぐるため、流出としては ${a}% 差し引いて数えています。地域内からの収入は ${b}% 差し引き。「一部地域内」は ${pr}% を地域内あつかい。${dep?"減価償却費はお金の動きがないため流出に含めていません。":""}`,
+  rFoot3:"◎ この考え方は、お金が地域内をめぐる回数を測る指標 LM3（Local Multiplier 3, New Economics Foundation）の思想にもとづく簡易版です。",
+  rFoot4:"※ この書類は地域との関係を読みなおすためのセルフレポートであり、税務署に出すものではありません。",
+  rTimes:n=>`（${n}回）`
+},
+en: {
+  eyebrow:"ローカリズム確定申告書", title:"LOCALISM TAX RETURN",
+  tagline:"Turn your bookkeeping into a way of re-reading your relationship with your region. — A local economic circulation report",
+  badgeLock:"Your accounting data never leaves this browser", badgeProto:"PROTOTYPE",
+  tab1:"Load data", tab2:"Recurring", tab3:"By payee", tab4:"Big ones", tab5:"Rough split", tab6:"Your report",
+  h1_1:"Load your accounting data",
+  lead1:"Drop in a transactions CSV exported from your accounting software (freee format). We'll read how much of your year's money circulated within your region. <b>This app does not prepare tax filings.</b> It's a self-report for re-reading your relationship with the local economy.",
+  note1:"Your CSV is never sent to any server — everything runs inside your browser. (Fonts and libraries are loaded from external CDNs; that traffic carries none of your accounting data.)",
+  dropMain:"Drag &amp; drop your transactions CSV here<br>or <b>click to choose a file</b>",
+  dropSmall:"freee-format CSV (income/expense, account, amount columns). Shift-JIS or UTF-8 both work.",
+  setYear:"Fiscal year", phYear:"e.g. FY2025",
+  setOwner:"Business name (only if you want it on the report)", phOwner:"Optional",
+  setRegion:"Your island / region",
+  setKw:"Local keywords (used for auto-suggestions)",
+  setKwDesc:"If a payee name contains one of these words, we'll suggest it may be local. Comma-separated. Japanese place names work best, since they match your ledger text.",
+  setSave:"Saving in this browser",
+  setSaveDesc:"Transactions and your answers are stored only in this browser (localStorage). Turn this off on a shared computer.",
+  setSaveChk:"Save in this browser", wipeBtn:"Delete all saved data",
+  next1:"Next: recurring transactions →", back:"← Back",
+  h2_1:"Recurring transactions",
+  lead2:"These transactions repeat monthly or regularly. Small each month, big over a year. Answer once per group and it applies to every transaction inside.",
+  next2:"Next: payees →",
+  h3_1:"Suggested labels by payee",
+  lead3:"Based on words in payee names and item memos, we've auto-suggested <b>candidates</b> for local / non-local. Nothing is final — fix only what looks wrong.",
+  applyHigh:"Apply all high-confidence suggestions",
+  next3:"Next: big transactions →",
+  h4_1:"Big one-off transactions",
+  lead4:"Transactions we couldn't classify so far, with the biggest impact on your year. Answer the ones you remember; skip the rest (the next step estimates them).",
+  next4:"Next: rough split →",
+  h5_1:"Roughly split the rest",
+  lead5:"For everything you didn't confirm individually, estimate what share was local, per account category. No payee records needed — gut feeling is fine.",
+  subIn:"Money coming in", subOut:"Money going out",
+  note5:"When unsure: a local shop supplier is “local”; Amazon or a mainland wholesaler is “non-local”. Wages are local if your staff live in the region. These are treated as estimates.",
+  next5:"Generate my Localism Tax Return →",
+  h6_1:"Your report",
+  scaleSummary:"Adjust the yardstick (how strongly money re-circulates)",
+  pAlpha1:"Money paid locally: ", pAlpha2:"% is assumed to stay in the region",
+  pAlphaDesc:"Of ¥10,000 paid to a local shop, only ¥1,000 counts as having left the region.",
+  pBeta1:"Income from within the region is discounted by ", pBeta2:"%",
+  pBetaDesc:"Sales to local customers just move money around inside the region. Sales from outside bring in new money, so they count 100%.",
+  pPartial1:"“Partly local” counts as ", pPartial2:"% local",
+  pPartialDesc:"National chains with a local branch: local jobs and rent keep some money here.",
+  pDep:"Depreciation",
+  pDepEx:"Exclude from outflow — no cash actually moved (recommended)", pDepIn:"Treat like any other expense",
+  btnRegen:"Regenerate", btnSave:"Save as HTML", btnPrint:"Print",
+  inc:"IN", exp:"OUT", incexp:"IN/OUT",
+  decIn:"Local", decPartial:"Partly local", decExt:"Non-local",
+  incFrom:"From within", incOut:"From outside",
+  candIn:"Likely local", candExt:"Likely non-local", candPartial:"Likely partly local",
+  candNone:"No suggestion", confHi:"high confidence", confMid:"medium confidence",
+  rExt:k=>`Matches “${k}” in the national / global services list`,
+  rPartial:k=>`Matches “${k}” — a national chain (local branch, non-local capital)`,
+  rRegion:k=>`Contains the local keyword “${k}”`,
+  rHint:k=>`“${k}” suggests an online service`,
+  rNone:"No usable words found", rEmpty:"Nothing to go on",
+  yen:n=>`¥${n}`,
+  noData:"No transaction data yet. Load a CSV in step 1.",
+  noGroups:"No recurring transactions found. Feel free to move on.",
+  gMeta:(c,m,mo)=>`${c} times across ${m} months / about ¥${mo} each / accounts: `,
+  gUnnamed:(cat,amt)=>`${cat} (about ¥${amt} each time)`,
+  gProgress:(a,b)=>`Answered ${b} of ${a} groups. You don't have to answer them all.`,
+  pyEmpty:"This data has almost no payee names or item memos, so you can skip this step. Head to “Big ones”.",
+  pyMeta:(tt,c)=>`¥${tt} / year · ${c} entries`, pyCats:"Accounts: ",
+  pyNoHigh:"No unapplied high-confidence suggestions.",
+  bigInc:"Larger income", bigExp:"Larger spending",
+  bigNone:"No big transactions left to confirm. Move on.",
+  slIncTitle:"Sales (not yet classified)",
+  slIncAmt:(r,c,tt)=>`¥${r} remaining · ${c} entries (total income ¥${tt})`,
+  slIncQ:"Where did the remaining sales come from? Tourists, out-of-region clients and online sales count as “from outside”.",
+  slIncDone:"All income has been classified individually.", slExpDone:"All spending has been classified individually.",
+  slRemain:(r,c)=>`¥${r} remaining · ${c} entries`,
+  slGenericQ:n=>`How much of the remaining “${n}” went to local businesses?`,
+  chipsExp:[["All non-local",0],["Mostly non-local",10],["About half",50],["Mostly local",90],["All local",100]],
+  chipsInc:[["All from within",0],["Mostly within",25],["About half",50],["Mostly outside",75],["All from outside",100]],
+  pctExtChain:"Non-local / chains",
+  csvFail:"Couldn't read that CSV.",
+  csvBadFormat:"Unsupported CSV format (needs freee-style 収支区分 / 勘定科目 / 金額 columns).",
+  csvOk:(ic,it,ec,et,g)=>`Loaded! Income: <b>${ic} entries, ¥${it}</b> / Spending: <b>${ec} entries, ¥${et}</b>. Found <b>${g} recurring groups</b>.`,
+  csvSkip:n=>`<br>* Owner's draw / contribution (¥${n}) excluded — not a business expense.`,
+  csvNoPayee:"<br>* No payee names in this data. No problem — we'll read it through amount patterns and accounts.",
+  csvRemember:"Remembering the data you loaded last time. Loading a new CSV will replace it.",
+  yearSuffix:" (FY)",
+  wipeConfirm:"Delete all data saved in this browser (transactions, answers, settings)?",
+  rEra:y=>`${y}${y?" — ":""}A self-report on economic circulation`,
+  rTitle:"LOCALISM TAX RETURN",
+  rStance:"This document does not grade your economic activity. It makes the flow of money visible so you can re-read your relationship with your region. It is not a tax filing.",
+  rS1:"INCOME — where the money came from", rS2:"SPENDING — where the money went",
+  rS3:"RECURRING TRANSACTIONS", rS4:"BIG TRANSACTIONS CONFIRMED INDIVIDUALLY", rS5:"SUMMARY",
+  rCirc:"Local circulation rate", rCircU:r=>`Share of spending that stayed within ${r}`,
+  rRo:"External income earned", rRoU:"Money brought in from outside the region (¥)",
+  rSo:"Outflow", rSoU:"Spending that left the region (¥)",
+  rBal:"Local recirculation balance", rBalU:"External income + retained local spending − outflow (¥)",
+  rIncTotal:"Total income",
+  rIncOut:"From outside the region (tourists, external clients, online sales)　<span style='font-weight:400'>counted 100%</span>",
+  rIncIn:b=>`From within the region　<span style='font-weight:400'>counted at ${b}%</span>`,
+  rAdjInc:"Localism-adjusted income",
+  rGaugeOut:"From outside", rGaugeIn:"From within",
+  rCat:"Account", rAmt:"Amount", rToIn:"To local", rToOut:"To non-local",
+  rExcluded:"Excluded (no cash movement)", rCatIn:p=>`local ${p}%`,
+  rExpTotal:"Total spending", rDepNote:n=>` (¥${n} of depreciation excluded)`,
+  rAlphaRow:a=>`If ${a}% of local payments stay in the region, the real outflow is`,
+  rAdjLoss:"Localism-adjusted outflow",
+  rGauge2In:"To local", rGauge2Out:"To non-local / chains",
+  rSummary1:"Adjusted income − adjusted outflow",
+  rBalRow:(ro,si,so)=>`<b>Local recirculation balance</b> (external ¥${ro} + retained ¥${si} − outflow ¥${so})`,
+  rFoot1:(g,p,tt,d,s)=>`◎ How things were classified: ${g} via recurring groups, ${p} via payee names, ${tt} confirmed individually (${d} total). The remaining ${s} are per-account estimates.`,
+  rFoot2:(a,b,pr,dep)=>`◎ Method: local payments re-circulate, so only ${100-a}% counts as outflow (${a}% retained). Local income is discounted by ${b}%. “Partly local” counts ${pr}% as local.${dep?" Depreciation is excluded — no cash moved.":""}`,
+  rFoot3:"◎ Based on a simplified take on LM3 (Local Multiplier 3, New Economics Foundation), a measure of how many times money circulates locally.",
+  rFoot4:"* This is a self-report for re-reading your relationship with your region — not a document for the tax office.",
+  rTimes:n=>` (×${n})`
+}};
+function t(k){ return DICT[LANG][k] ?? DICT.ja[k]; }
+function yen(n){ return t("yen")(fmt(n)); }
+
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.title = LANG==="ja" ? "ローカリズム確定申告書" : "Localism Tax Return";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const v = DICT[LANG][el.dataset.i18n];
+    if(typeof v === "string") el.innerHTML = v;
+  });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+    const v = DICT[LANG][el.dataset.i18nPh];
+    if(typeof v === "string") el.placeholder = v;
+  });
+  document.getElementById("langJa").classList.toggle("active", LANG==="ja");
+  document.getElementById("langEn").classList.toggle("active", LANG==="en");
+}
+function setLang(l){
+  LANG = l;
+  localStorage.setItem("localism-lang", l);
+  applyLang();
+  const active = +document.querySelector(".steps button.active").dataset.step;
+  if(active===2) buildGroupList();
+  if(active===3) buildPayeeList();
+  if(active===4) buildBigList();
+  if(active===5) buildSliders();
+  if(active===6 && document.getElementById("sheetBody")) generateReport();
+}
+document.getElementById("langJa").addEventListener("click", ()=>setLang("ja"));
+document.getElementById("langEn").addEventListener("click", ()=>setLang("en"));
 
 /* ---------- 勘定科目マッピング ---------- */
 const KAMOKU_MAP = {
@@ -325,6 +588,21 @@ const CAT_NAMES = {
   fukuri:"福利厚生費", kyuryo:"給料賃金", gaichu:"外注工賃", rishi:"利子割引料",
   chidai:"地代家賃", kashidaore:"貸倒金", zappi:"雑費"
 };
+const CAT_NAMES_EN = {
+  shiire:"Purchases (COGS)", sozei:"Taxes & dues", nizukuri:"Packing & shipping", suido:"Utilities",
+  ryohi:"Travel & transport", tsushin:"Communications", koukoku:"Advertising", settai:"Entertainment",
+  songai:"Insurance", shuzen:"Repairs", shomo:"Supplies", genka:"Depreciation",
+  fukuri:"Staff welfare", kyuryo:"Wages", gaichu:"Outsourcing", rishi:"Interest",
+  chidai:"Rent", kashidaore:"Bad debts", zappi:"Miscellaneous"
+};
+const INC_NAMES_EN = {"売上高":"Sales","雑収入":"Misc. income","家事消費":"Personal use"};
+function catLabel(key, fallback){
+  if(LANG==="en"){
+    if(CAT_NAMES_EN[key]) return CAT_NAMES_EN[key];
+    if(INC_NAMES_EN[fallback]) return INC_NAMES_EN[fallback];
+  }
+  return CAT_NAMES[key] || fallback;
+}
 const CAT_QUESTIONS = {
   shiire:  "仕入はどこから？ 地域の商店や生産者さんなら「地域内」、本土の問屋さんやネット仕入れなら「地域外」です。",
   tsushin: "スマホやネット回線の契約先はどこですか？ 大手キャリアはだいたい「地域外」です。",
@@ -339,6 +617,24 @@ const CAT_QUESTIONS = {
   songai:  "保険の窓口が地元の代理店でも、保険会社そのものは地域外のことが多いです。",
   sozei:   "税金や組合費。市町村や地域の組合に払ったものは「地域内」と考えてOKです。"
 };
+const CAT_QUESTIONS_EN = {
+  shiire:  "Where do you buy stock? Local shops and producers are “local”; mainland wholesalers and online suppliers are “non-local”.",
+  tsushin: "Who provides your phone and internet? Major carriers are usually “non-local”.",
+  suido:   "Electricity, water, gas. Municipal or locally-owned utilities lean “local”.",
+  chidai:  "Is your landlord someone who lives in the region?",
+  kyuryo:  "Do the people on your payroll live in the region?",
+  gaichu:  "Are your contractors local craftspeople and businesses, or freelancers and firms elsewhere?",
+  ryohi:   "Getting around: local taxis, buses and fuel are “local”; flights and mainland travel are “non-local”.",
+  settai:  "Are most of your business meals at local restaurants?",
+  shomo:   "Everyday purchases: local shops are “local”; Amazon and national chains are “non-local”.",
+  koukoku: "Where did you advertise? A local free paper is “local”; web ads are “non-local”.",
+  songai:  "Even with a local agent, the insurance company itself is usually outside the region.",
+  sozei:   "Taxes and association dues paid to the municipality or local co-ops can count as “local”."
+};
+function catQuestion(key, name){
+  if(LANG==="en") return CAT_QUESTIONS_EN[key] || t("slGenericQ")(name);
+  return CAT_QUESTIONS[key] || t("slGenericQ")(name);
+}
 
 /* ---------- 分類辞書（ルールベース） ---------- */
 const DICT_EXT = ["amazon","アマゾン","google","グーグル","facebook","instagram","インスタグラム","meta","adobe","アドビ","apple","アップル","itunes","microsoft","マイクロソフト","openai","chatgpt","anthropic","claude","stripe","paypal","ペイパル","freee","フリー","マネーフォワード","moneyforward","弥生","yayoi","dropbox","canva","notion","slack","zoom","yahoo","ヤフー","楽天","rakuten","line","aws","netflix","ネットフリックス","spotify","youtube","twitter","メルカリ","mercari","softbank","ソフトバンク","docomo","ドコモ","kddi","ジェットスター","jetstar","ピーチ","skymark","スカイマーク","solaseed","ソラシド","エックスサーバー","xserver","さくらインターネット","ロリポップ","godaddy","お名前ドットコム","wix","shopify","base","stores"];
@@ -350,12 +646,12 @@ const REGION_PRESETS = {
 
 /* ---------- 状態 ---------- */
 const state = {
-  txs: [],            // {id,kubun:'inc'|'exp',date,month,catKey,catName,a,p(取引先),mm(品目/備考),nn(正規化名),g(groupId)}
-  groups: [],         // 継続取引グループ {id,kubun,label,catNames,txIds,total,count,months,monthly,cand}
-  groupDecisions: {}, // groupId -> 'in'|'ext'|'partial'
-  payeeDecisions: {}, // 正規化名 -> 'in'|'ext'|'partial'
-  txDecisions: {},    // txId -> 'in'|'ext'|'partial'
-  alloc: {},          // catKey -> 地域内%（残り分の推定）
+  txs: [],
+  groups: [],
+  groupDecisions: {},
+  payeeDecisions: {},
+  txDecisions: {},
+  alloc: {},
   incomeOutsideRatio: 70,
   persist: true
 };
@@ -366,10 +662,10 @@ function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;
 function median(arr){ const s=[...arr].sort((a,b)=>a-b); const m=Math.floor(s.length/2); return s.length%2 ? s[m] : (s[m-1]+s[m])/2; }
 function norm(s){
   if(!s) return "";
-  let t = s.normalize("NFKC").toLowerCase();
-  t = t.replace(/株式会社|有限会社|合同会社|\(株\)|\(有\)/g, "");
-  t = t.replace(/[^\p{L}\p{N}]+/gu, " ").replace(/\s+/g, " ").trim();
-  return t;
+  let x = s.normalize("NFKC").toLowerCase();
+  x = x.replace(/株式会社|有限会社|合同会社|\(株\)|\(有\)/g, "");
+  x = x.replace(/[^\p{L}\p{N}]+/gu, " ").replace(/\s+/g, " ").trim();
+  return x;
 }
 
 /* ================= STEP NAV ================= */
@@ -428,13 +724,13 @@ function parseCSV(text){
 
 function importDeals(text){
   const rows = parseCSV(text);
-  if(rows.length < 2){ alert("CSVが読めませんでした。"); return; }
+  if(rows.length < 2){ alert(t("csvFail")); return; }
   const header = rows[0];
   const col = name => header.findIndex(h=>h.trim() === name);
   const ci = { kubun: col("収支区分"), date: col("発生日"), payee: col("取引先"),
     kamoku: col("勘定科目"), amount: col("金額"), item: col("品目"), memo: col("備考") };
   if(ci.kubun < 0 || ci.kamoku < 0 || ci.amount < 0){
-    alert("このCSVの形式には未対応です（「収支区分」「勘定科目」「金額」の列が必要です）。");
+    alert(t("csvBadFormat"));
     return;
   }
   state.txs = []; state.groups = [];
@@ -470,19 +766,18 @@ function importDeals(text){
 
   detectRecurring();
 
-  const inc = state.txs.filter(t=>t.kubun==="inc");
-  const exp = state.txs.filter(t=>t.kubun==="exp");
-  const incomeSum = inc.reduce((s,t)=>s+t.a,0), expSum = exp.reduce((s,t)=>s+t.a,0);
-  // 年度の自動推定
-  const years = [...new Set(state.txs.map(t=>t.date.slice(0,4)).filter(Boolean))].sort();
+  const inc = state.txs.filter(x=>x.kubun==="inc");
+  const exp = state.txs.filter(x=>x.kubun==="exp");
+  const incomeSum = inc.reduce((s,x)=>s+x.a,0), expSum = exp.reduce((s,x)=>s+x.a,0);
+  const years = [...new Set(state.txs.map(x=>x.date.slice(0,4)).filter(Boolean))].sort();
   if(years.length && !document.getElementById("yearLabel").value){
-    document.getElementById("yearLabel").value = years[years.length-1] + "年分";
+    document.getElementById("yearLabel").value = years[years.length-1] + t("yearSuffix");
   }
   const sum = document.getElementById("csvSummary");
   sum.style.display = "block";
-  sum.innerHTML = `読み取りました！ 収入 <b>${inc.length}件 ${fmt(incomeSum)}円</b> ／ 支出 <b>${exp.length}件 ${fmt(expSum)}円</b>。毎月つづいている取引のグループを <b>${state.groups.length}個</b> 見つけました。`
-    + (skipped ? `<br>※ 事業主貸・事業主借 ${fmt(skipped)}円は経費ではないので除いています。` : "")
-    + (payeeFilled === 0 ? `<br>※ 取引先名は入っていないデータでした。だいじょうぶ、金額のパターンと科目から読みといていきます。` : "");
+  sum.innerHTML = t("csvOk")(inc.length, fmt(incomeSum), exp.length, fmt(expSum), state.groups.length)
+    + (skipped ? t("csvSkip")(fmt(skipped)) : "")
+    + (payeeFilled === 0 ? t("csvNoPayee") : "");
   saveState();
 }
 
@@ -493,40 +788,40 @@ function clusterByAmount(list){
   let cur = [];
   for(const tx of sorted){
     if(!cur.length){ cur.push(tx); continue; }
-    const med = median(cur.map(t=>t.a));
+    const med = median(cur.map(x=>x.a));
     if(Math.abs(tx.a - med) / med <= 0.12) cur.push(tx);
     else { clusters.push(cur); cur = [tx]; }
   }
   if(cur.length) clusters.push(cur);
   return clusters;
 }
-function distinctMonths(list){ return new Set(list.map(t=>t.month).filter(Boolean)).size; }
+function distinctMonths(list){ return new Set(list.map(x=>x.month).filter(Boolean)).size; }
 
 function detectRecurring(){
   state.groups = [];
   let gid = 0;
-  state.txs.forEach(t=>t.g=null);
+  state.txs.forEach(x=>x.g=null);
   for(const kubun of ["inc","exp"]){
-    const pool = state.txs.filter(t=>t.kubun===kubun);
+    const pool = state.txs.filter(x=>x.kubun===kubun);
     const used = new Set();
     // 1) 取引先名・摘要が入っているもの: 名前ごと → 金額クラスタ
     const byName = {};
-    pool.forEach(t=>{ if(t.nn) (byName[t.nn] = byName[t.nn]||[]).push(t); });
+    pool.forEach(x=>{ if(x.nn) (byName[x.nn] = byName[x.nn]||[]).push(x); });
     for(const list of Object.values(byName)){
       for(const cl of clusterByAmount(list)){
         if(cl.length>=3 && distinctMonths(cl)>=3){
           mkGroup(gid++, kubun, cl, displayNameOf(cl));
-          cl.forEach(t=>used.add(t.id));
+          cl.forEach(x=>used.add(x.id));
         }
       }
     }
     // 2) 名前がないもの: 科目ごと → 金額クラスタ（取引先列が空のデータでも継続取引を拾う）
     const byCat = {};
-    pool.forEach(t=>{ if(!used.has(t.id) && !t.nn) (byCat[t.catKey] = byCat[t.catKey]||[]).push(t); });
+    pool.forEach(x=>{ if(!used.has(x.id) && !x.nn) (byCat[x.catKey] = byCat[x.catKey]||[]).push(x); });
     for(const list of Object.values(byCat)){
       for(const cl of clusterByAmount(list)){
         if(cl.length>=3 && distinctMonths(cl)>=3){
-          mkGroup(gid++, kubun, cl, `${cl[0].catName}（毎回 約${fmt(median(cl.map(t=>t.a)))}円）`);
+          mkGroup(gid++, kubun, cl, null); // 名前なし: 表示時に言語に合わせて組み立てる
         }
       }
     }
@@ -534,23 +829,31 @@ function detectRecurring(){
   // 小さすぎるグループは質問しない（年間2.4万円未満は科目別推定に回す）。上位20グループまで
   state.groups.sort((a,b)=>b.total-a.total);
   const keep = new Set(state.groups.filter(g=>g.total >= 24000).slice(0,20).map(g=>g.id));
-  state.txs.forEach(t=>{ if(t.g!=null && !keep.has(t.g)) t.g = null; });
+  state.txs.forEach(x=>{ if(x.g!=null && !keep.has(x.g)) x.g = null; });
   state.groups = state.groups.filter(g=>keep.has(g.id));
 }
 function displayNameOf(cl){
   const counts = {};
-  cl.forEach(t=>{ const k = t.p || t.mm; if(k) counts[k]=(counts[k]||0)+1; });
+  cl.forEach(x=>{ const k = x.p || x.mm; if(k) counts[k]=(counts[k]||0)+1; });
   const best = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
-  return best ? best[0] : cl[0].catName;
+  return best ? best[0] : null;
 }
 function mkGroup(id, kubun, cl, label){
-  const total = cl.reduce((s,t)=>s+t.a,0);
-  const g = {id, kubun, label, catNames:[...new Set(cl.map(t=>t.catName))].join("・"),
-    txIds: cl.map(t=>t.id), total, count: cl.length, months: distinctMonths(cl),
-    monthly: median(cl.map(t=>t.a)), cand: classify(label + " " + cl.map(t=>t.mm).join(" "))};
-  cl.forEach(t=>t.g = id);
+  const g = {id, kubun, label, catKey: cl[0].catKey, catFallback: cl[0].catName,
+    catKeys:[...new Set(cl.map(x=>x.catKey))],
+    txIds: cl.map(x=>x.id), total: cl.reduce((s,x)=>s+x.a,0), count: cl.length,
+    months: distinctMonths(cl), monthly: median(cl.map(x=>x.a)),
+    candText: (label||"") + " " + cl.map(x=>x.mm).join(" ")};
+  cl.forEach(x=>x.g = id);
   state.groups.push(g);
   return g;
+}
+function groupLabel(g){
+  if(g.label) return g.label;
+  return t("gUnnamed")(catLabel(g.catKey, g.catFallback), fmt(g.monthly));
+}
+function groupCatNames(g){
+  return g.catKeys.map(k=>catLabel(k, g.catFallback)).join("・");
 }
 
 /* ================= 辞書による候補分類 ================= */
@@ -558,28 +861,30 @@ function regionKeywordList(){
   return (document.getElementById("regionKeywords").value||"").split(/[、,\n]/).map(s=>s.trim()).filter(s=>s.length>=2);
 }
 function classify(text){
-  const t = norm(text);
-  if(!t) return {label:null, conf:null, reason:"判定材料がありません"};
+  const x = norm(text);
+  if(!x) return {label:null, conf:null, rk:"rEmpty", kw:""};
   const hit = (dict)=>dict.find(k=>{
     const nk = norm(k);
     if(!nk) return false;
-    if(/^[a-z0-9 ]+$/.test(nk) && nk.length<=4) return (" "+t+" ").includes(" "+nk+" "); // 短い英字はトークン一致
-    return t.includes(nk);
+    if(/^[a-z0-9 ]+$/.test(nk) && nk.length<=4) return (" "+x+" ").includes(" "+nk+" ");
+    return x.includes(nk);
   });
   let k;
-  if(k = hit(DICT_EXT))       return {label:"ext", conf:"高", reason:`「${k}」が全国・海外サービスの辞書に一致`};
-  if(k = hit(DICT_PARTIAL))   return {label:"partial", conf:"中", reason:`「${k}」が全国チェーンの辞書に一致（店舗は地域内でも資本は地域外）`};
-  if(k = hit(regionKeywordList())) return {label:"in", conf:"中", reason:`地域のことば「${k}」に一致`};
-  if(k = hit(DICT_EXT_HINT))  return {label:"ext", conf:"中", reason:`「${k}」からオンラインサービスの支払いと推測`};
-  return {label:null, conf:null, reason:"判定に使える言葉が見つかりません"};
+  if(k = hit(DICT_EXT))       return {label:"ext", conf:"高", rk:"rExt", kw:k};
+  if(k = hit(DICT_PARTIAL))   return {label:"partial", conf:"中", rk:"rPartial", kw:k};
+  if(k = hit(regionKeywordList())) return {label:"in", conf:"中", rk:"rRegion", kw:k};
+  if(k = hit(DICT_EXT_HINT))  return {label:"ext", conf:"中", rk:"rHint", kw:k};
+  return {label:null, conf:null, rk:"rNone", kw:""};
 }
-const CAND_LABELS = {in:"地域内候補", ext:"地域外候補", partial:"一部地域内候補"};
+function candLabel(l){ return l==="in" ? t("candIn") : l==="ext" ? t("candExt") : t("candPartial"); }
+function confLabel(c){ return c==="高" ? t("confHi") : t("confMid"); }
+function reasonText(c){ const r = t(c.rk); return typeof r === "function" ? r(c.kw) : r; }
 
 /* ================= 判定の解決（優先順位） ================= */
-function txDecision(t){
-  if(state.txDecisions[t.id]) return state.txDecisions[t.id];
-  if(t.g!=null && state.groupDecisions[t.g]) return state.groupDecisions[t.g];
-  if(t.nn && state.payeeDecisions[t.nn]) return state.payeeDecisions[t.nn];
+function txDecision(x){
+  if(state.txDecisions[x.id]) return state.txDecisions[x.id];
+  if(x.g!=null && state.groupDecisions[x.g]) return state.groupDecisions[x.g];
+  if(x.nn && state.payeeDecisions[x.nn]) return state.payeeDecisions[x.nn];
   return null;
 }
 
@@ -597,26 +902,27 @@ function decideButtons(current, labels, onPick){
   return div;
 }
 function candBadge(cand){
-  if(!cand || !cand.label) return `<span class="cand">候補なし — ${esc(cand ? cand.reason : "")}</span>`;
-  return `<span class="cand ${cand.label}">${CAND_LABELS[cand.label]}・自信${cand.conf}</span> <span style="font-size:11px;color:var(--sub)">${esc(cand.reason)}</span>`;
+  if(!cand || !cand.label) return `<span class="cand">${t("candNone")} — ${esc(reasonText(cand||{rk:"rEmpty"}))}</span>`;
+  return `<span class="cand ${cand.label}">${candLabel(cand.label)}・${confLabel(cand.conf)}</span> <span style="font-size:11px;color:var(--sub)">${esc(reasonText(cand))}</span>`;
 }
+function expLabels(){ return {in:t("decIn"), partial:t("decPartial"), ext:t("decExt")}; }
+function incLabels(){ return {in:t("incFrom"), ext:t("incOut"), partial:null}; }
 
 /* ================= STEP 2: 継続取引 ================= */
 function buildGroupList(){
   const div = document.getElementById("groupList");
   div.innerHTML = "";
-  if(!state.txs.length){ div.innerHTML = `<div class="warn-note">まだ取引データがありません。ステップ1でCSVを読み込んでくださいね。</div>`; return; }
-  if(!state.groups.length){ div.innerHTML = `<div class="note">毎月くり返されている取引は見つかりませんでした。そのまま次へ進んでください。</div>`; return; }
+  if(!state.txs.length){ div.innerHTML = `<div class="warn-note">${t("noData")}</div>`; return; }
+  if(!state.groups.length){ div.innerHTML = `<div class="note">${t("noGroups")}</div>`; return; }
   for(const g of state.groups){
     const isInc = g.kubun==="inc";
     const card = document.createElement("div"); card.className = "qCard";
     card.innerHTML = `<div class="qhead">
-        <span class="qname"><span class="kbadge ${isInc?"":"exp"}">${isInc?"収入":"支出"}</span>${esc(g.label)}</span>
-        <span class="qamt">年間 ${fmt(g.total)} 円</span></div>
-      <div class="qmeta">${g.count}回・${g.months}か月にわたって発生 ／ 毎回 約${fmt(g.monthly)}円 ／ 科目: ${esc(g.catNames)}</div>
-      <div class="qmeta">${candBadge(g.cand)}</div>`;
-    const labels = isInc ? {in:"地域の中から", ext:"地域の外から", partial:null} : {in:"地域内", partial:"一部地域内", ext:"地域外"};
-    card.appendChild(decideButtons(state.groupDecisions[g.id]||null, labels, v=>{
+        <span class="qname"><span class="kbadge ${isInc?"":"exp"}">${isInc?t("inc"):t("exp")}</span>${esc(groupLabel(g))}</span>
+        <span class="qamt">${yen(g.total)}${LANG==="ja"?" / 年間":" / year"}</span></div>
+      <div class="qmeta">${t("gMeta")(g.count, g.months, fmt(g.monthly))}${esc(groupCatNames(g))}</div>
+      <div class="qmeta">${candBadge(classify(g.candText))}</div>`;
+    card.appendChild(decideButtons(state.groupDecisions[g.id]||null, isInc ? incLabels() : expLabels(), v=>{
       if(v) state.groupDecisions[g.id]=v; else delete state.groupDecisions[g.id];
       saveState(); buildGroupList();
     }));
@@ -624,24 +930,23 @@ function buildGroupList(){
   }
   const done = Object.keys(state.groupDecisions).length;
   const p = document.createElement("div"); p.className="progressNote";
-  p.textContent = `${state.groups.length}グループ中 ${done}グループに答えました。ぜんぶ答えなくても大丈夫です。`;
+  p.textContent = t("gProgress")(state.groups.length, done);
   div.appendChild(p);
 }
 
 /* ================= STEP 3: 取引先候補 ================= */
 function payeeAggregates(){
   const map = {};
-  for(const t of state.txs){
-    if(!t.nn) continue;
-    const m = (map[t.nn] = map[t.nn] || {nn:t.nn, names:{}, total:0, count:0, inc:0, exp:0, cats:new Set(), hasPayee:false});
-    const disp = t.p || t.mm; if(disp) m.names[disp]=(m.names[disp]||0)+1;
-    if(t.p) m.hasPayee = true;
-    m.total += t.a; m.count++;
-    if(t.kubun==="inc") m.inc += t.a; else m.exp += t.a;
-    m.cats.add(t.catName);
+  for(const x of state.txs){
+    if(!x.nn) continue;
+    const m = (map[x.nn] = map[x.nn] || {nn:x.nn, names:{}, total:0, count:0, inc:0, exp:0, cats:new Set(), hasPayee:false});
+    const disp = x.p || x.mm; if(disp) m.names[disp]=(m.names[disp]||0)+1;
+    if(x.p) m.hasPayee = true;
+    m.total += x.a; m.count++;
+    if(x.kubun==="inc") m.inc += x.a; else m.exp += x.a;
+    m.cats.add(catLabel(x.catKey, x.catName));
   }
   // 取引先名が実在するもの、または同じ名前が3回以上くり返すものだけを一覧にする
-  // （品目メモだけの単発取引で一覧があふれないように）
   return Object.values(map)
     .filter(m=>m.hasPayee || m.count>=3)
     .map(m=>{
@@ -656,20 +961,19 @@ function buildPayeeList(){
   const bulk = document.getElementById("payeeBulk");
   if(!list.length){
     bulk.style.display = "none";
-    div.innerHTML = `<div class="note">このデータには取引先名や品目がほとんど入っていないため、ここはスキップでOKです。つぎの「大きな取引」へ進んでください。</div>`;
+    div.innerHTML = `<div class="note">${t("pyEmpty")}</div>`;
     return;
   }
   bulk.style.display = "flex";
   for(const pa of list){
     const card = document.createElement("div"); card.className = "qCard";
-    const kind = pa.inc>0 && pa.exp>0 ? "収支" : (pa.inc>0 ? "収入" : "支出");
+    const kind = pa.inc>0 && pa.exp>0 ? t("incexp") : (pa.inc>0 ? t("inc") : t("exp"));
     card.innerHTML = `<div class="qhead">
         <span class="qname"><span class="kbadge ${pa.exp>0?"exp":""}">${kind}</span>${esc(pa.disp)}</span>
-        <span class="qamt">年間 ${fmt(pa.total)} 円・${pa.count}件</span></div>
-      <div class="qmeta">科目: ${esc([...pa.cats].join("・"))}</div>
+        <span class="qamt">${t("pyMeta")(fmt(pa.total), pa.count)}</span></div>
+      <div class="qmeta">${t("pyCats")}${esc([...pa.cats].join("・"))}</div>
       <div class="qmeta">${candBadge(pa.cand)}</div>`;
-    card.appendChild(decideButtons(state.payeeDecisions[pa.nn]||null,
-      {in:"地域内", partial:"一部地域内", ext:"地域外"}, v=>{
+    card.appendChild(decideButtons(state.payeeDecisions[pa.nn]||null, expLabels(), v=>{
         if(v) state.payeeDecisions[pa.nn]=v; else delete state.payeeDecisions[pa.nn];
         saveState(); buildPayeeList();
       }));
@@ -683,39 +987,38 @@ document.getElementById("applyHighBtn").addEventListener("click", ()=>{
     if(pa.cand.label && pa.cand.conf === "高"){ state.payeeDecisions[pa.nn] = pa.cand.label; n++; }
   }
   saveState(); buildPayeeList();
-  if(!n) alert("自信「高」の未適用候補はありませんでした。");
+  if(!n) alert(t("pyNoHigh"));
 });
 
 /* ================= STEP 4: 大口単発 ================= */
 function buildBigList(){
   const div = document.getElementById("bigList");
   div.innerHTML = "";
-  if(!state.txs.length){ div.innerHTML = `<div class="warn-note">まだ取引データがありません。</div>`; return; }
+  if(!state.txs.length){ div.innerHTML = `<div class="warn-note">${t("noData")}</div>`; return; }
   let any = false;
   for(const kubun of ["inc","exp"]){
-    const side = state.txs.filter(t=>t.kubun===kubun);
-    const total = side.reduce((s,t)=>s+t.a,0);
+    const side = state.txs.filter(x=>x.kubun===kubun);
+    const total = side.reduce((s,x)=>s+x.a,0);
     const threshold = Math.max(30000, total*0.03);
-    const cands = side.filter(t=>!txDecision(t) && t.a >= threshold).sort((a,b)=>b.a-a.a).slice(0,12);
+    const cands = side.filter(x=>!txDecision(x) && x.a >= threshold).sort((a,b)=>b.a-a.a).slice(0,12);
     if(!cands.length) continue;
     any = true;
     const head = document.createElement("div"); head.className="subhead";
-    head.textContent = kubun==="inc" ? "大きめの収入" : "大きめの支出";
+    head.textContent = kubun==="inc" ? t("bigInc") : t("bigExp");
     div.appendChild(head);
-    for(const t of cands){
+    for(const x of cands){
       const row = document.createElement("div"); row.className = "txRow";
       const info = document.createElement("div"); info.className = "txinfo";
-      info.innerHTML = `${t.date ? esc(t.date.replace(/^\d{4}\//,""))+"　" : ""}<span class="txamt">${fmt(t.a)}円</span>　${esc(t.catName)}${t.p||t.mm ? `　<span style="color:var(--sub)">${esc(t.p||t.mm)}</span>` : ""}`;
+      info.innerHTML = `${x.date ? esc(x.date.replace(/^\d{4}\//,""))+"　" : ""}<span class="txamt">${yen(x.a)}</span>　${esc(catLabel(x.catKey, x.catName))}${x.p||x.mm ? `　<span style="color:var(--sub)">${esc(x.p||x.mm)}</span>` : ""}`;
       row.appendChild(info);
-      const labels = kubun==="inc" ? {in:"地域の中から", ext:"地域の外から", partial:null} : {in:"地域内", partial:"一部地域内", ext:"地域外"};
-      row.appendChild(decideButtons(state.txDecisions[t.id]||null, labels, v=>{
-        if(v) state.txDecisions[t.id]=v; else delete state.txDecisions[t.id];
+      row.appendChild(decideButtons(state.txDecisions[x.id]||null, kubun==="inc" ? incLabels() : expLabels(), v=>{
+        if(v) state.txDecisions[x.id]=v; else delete state.txDecisions[x.id];
         saveState(); buildBigList();
       }));
       div.appendChild(row);
     }
   }
-  if(!any) div.innerHTML = `<div class="note">個別に確認したほうがよい大きな取引は残っていません。つぎへどうぞ。</div>`;
+  if(!any) div.innerHTML = `<div class="note">${t("bigNone")}</div>`;
 }
 
 /* ================= STEP 5: 科目別スライダー ================= */
@@ -730,8 +1033,8 @@ function sliderCard(title, amtText, qtext, value, labels, onChange){
   range.addEventListener("input", upd);
   const chips = document.createElement("div"); chips.className = "chips";
   labels.chips.forEach(ch=>{
-    const b = document.createElement("button"); b.textContent = ch.label;
-    b.addEventListener("click", ()=>{ range.value = ch.v; upd(); });
+    const b = document.createElement("button"); b.textContent = ch[0];
+    b.addEventListener("click", ()=>{ range.value = ch[1]; upd(); });
     chips.appendChild(b);
   });
   sb.appendChild(range); sb.appendChild(pct); sb.appendChild(chips);
@@ -744,40 +1047,36 @@ function buildSliders(){
   const incDiv = document.getElementById("incomeAlloc");
   const expDiv = document.getElementById("expenseAlloc");
   incDiv.innerHTML = ""; expDiv.innerHTML = "";
-  if(!state.txs.length){ expDiv.innerHTML = `<div class="warn-note">まだ取引データがありません。</div>`; return; }
+  if(!state.txs.length){ expDiv.innerHTML = `<div class="warn-note">${t("noData")}</div>`; return; }
 
-  // 収入の残り
-  const incRemain = state.txs.filter(t=>t.kubun==="inc" && !txDecision(t));
-  const incRemainSum = incRemain.reduce((s,t)=>s+t.a,0);
-  const incTotal = state.txs.filter(t=>t.kubun==="inc").reduce((s,t)=>s+t.a,0);
+  const incRemain = state.txs.filter(x=>x.kubun==="inc" && !txDecision(x));
+  const incRemainSum = incRemain.reduce((s,x)=>s+x.a,0);
+  const incTotal = state.txs.filter(x=>x.kubun==="inc").reduce((s,x)=>s+x.a,0);
   if(incRemainSum > 0){
-    incDiv.appendChild(sliderCard("売上（まだ判定していない分）",
-      `のこり ${fmt(incRemainSum)} 円・${incRemain.length}件（収入全体 ${fmt(incTotal)}円）`,
-      "のこりの売上は、だいたいどこから来ましたか？ 観光客・地域外の取引先・ネット販売は「地域の外から」です。",
+    incDiv.appendChild(sliderCard(t("slIncTitle"),
+      t("slIncAmt")(fmt(incRemainSum), incRemain.length, fmt(incTotal)),
+      t("slIncQ"),
       state.incomeOutsideRatio,
-      {left:"地域の中から", right:"地域の外から", leftCls:"pctIn", rightCls:"pctOut",
-       chips:[{label:"ぜんぶ中から",v:0},{label:"中が多め",v:25},{label:"半々くらい",v:50},{label:"外が多め",v:75},{label:"ぜんぶ外から",v:100}]},
+      {left:t("incFrom"), right:t("incOut"), leftCls:"pctIn", rightCls:"pctOut", chips:t("chipsInc")},
       v=>{ state.incomeOutsideRatio = v; saveStateDebounced(); }));
   } else {
-    incDiv.innerHTML = `<div class="note">収入はすべて個別に判定済みです。</div>`;
+    incDiv.innerHTML = `<div class="note">${t("slIncDone")}</div>`;
   }
 
-  // 支出の残り（科目別）
   const remainByCat = {};
-  state.txs.forEach(t=>{
-    if(t.kubun!=="exp" || txDecision(t)) return;
-    const m = (remainByCat[t.catKey] = remainByCat[t.catKey] || {catKey:t.catKey, catName:t.catName, sum:0, count:0});
-    m.sum += t.a; m.count++;
+  state.txs.forEach(x=>{
+    if(x.kubun!=="exp" || txDecision(x)) return;
+    const m = (remainByCat[x.catKey] = remainByCat[x.catKey] || {catKey:x.catKey, catName:catLabel(x.catKey, x.catName), sum:0, count:0});
+    m.sum += x.a; m.count++;
   });
   const cats = Object.values(remainByCat).sort((a,b)=>b.sum-a.sum);
-  if(!cats.length){ expDiv.innerHTML = `<div class="note">支出はすべて個別に判定済みです。</div>`; return; }
+  if(!cats.length){ expDiv.innerHTML = `<div class="note">${t("slExpDone")}</div>`; return; }
   for(const c of cats){
     if(!(c.catKey in state.alloc)) state.alloc[c.catKey] = 50;
-    expDiv.appendChild(sliderCard(c.catName, `のこり ${fmt(c.sum)} 円・${c.count}件`,
-      CAT_QUESTIONS[c.catKey] || `「${c.catName}」ののこりは、どれくらいが地域の中でしたか？`,
+    expDiv.appendChild(sliderCard(c.catName, t("slRemain")(fmt(c.sum), c.count),
+      catQuestion(c.catKey, c.catName),
       state.alloc[c.catKey],
-      {left:"地域外・チェーン", right:"地域内", leftCls:"pctOut", rightCls:"pctIn",
-       chips:[{label:"ぜんぶ地域外",v:0},{label:"地域外が多め",v:10},{label:"半々くらい",v:50},{label:"地域内が多め",v:90},{label:"ぜんぶ地域内",v:100}]},
+      {left:t("pctExtChain"), right:t("decIn"), leftCls:"pctOut", rightCls:"pctIn", chips:t("chipsExp")},
       v=>{ state.alloc[c.catKey] = v; saveStateDebounced(); }));
   }
 }
@@ -791,7 +1090,7 @@ function buildSliders(){
 });
 
 function compute(){
-  const region = document.getElementById("regionName").value || "地域";
+  const region = document.getElementById("regionName").value || (LANG==="ja"?"地域":"your region");
   const alpha = +document.getElementById("alpha").value/100;
   const beta  = +document.getElementById("beta").value/100;
   const pRate = +document.getElementById("partialRate").value/100;
@@ -800,35 +1099,35 @@ function compute(){
 
   let Ro=0, Ri=0, incomeTotal=0;
   let Si=0, So=0, totalExp=0, depExcluded=0;
-  const catAgg = {};   // catKey -> {name, amt, inAmt, excluded}
-  const sources = {group:0, payee:0, tx:0, slider:0}; // 判定の由来（件数）
+  const catAgg = {};
+  const sources = {group:0, payee:0, tx:0, slider:0};
 
-  for(const t of state.txs){
-    if(t.kubun==="inc"){
-      incomeTotal += t.a;
-      const d = txDecision(t);
+  for(const x of state.txs){
+    if(x.kubun==="inc"){
+      incomeTotal += x.a;
+      const d = txDecision(x);
       let inFrac;
-      if(d){ inFrac = fracOf(d); sources[state.txDecisions[t.id]?"tx":(t.g!=null&&state.groupDecisions[t.g])?"group":"payee"]++; }
+      if(d){ inFrac = fracOf(d); sources[state.txDecisions[x.id]?"tx":(x.g!=null&&state.groupDecisions[x.g])?"group":"payee"]++; }
       else { inFrac = 1 - state.incomeOutsideRatio/100; sources.slider++; }
-      Ri += t.a*inFrac; Ro += t.a*(1-inFrac);
+      Ri += x.a*inFrac; Ro += x.a*(1-inFrac);
       continue;
     }
-    totalExp += t.a;
-    const isDep = t.catKey==="genka";
-    const agg = (catAgg[t.catKey] = catAgg[t.catKey] || {name:t.catName, amt:0, inAmt:0, excluded:false});
-    agg.amt += t.a;
-    if(isDep && depMode==="exclude"){ depExcluded += t.a; agg.excluded = true; continue; }
-    const d = txDecision(t);
+    totalExp += x.a;
+    const isDep = x.catKey==="genka";
+    const agg = (catAgg[x.catKey] = catAgg[x.catKey] || {name:catLabel(x.catKey, x.catName), amt:0, inAmt:0, excluded:false});
+    agg.amt += x.a;
+    if(isDep && depMode==="exclude"){ depExcluded += x.a; agg.excluded = true; continue; }
+    const d = txDecision(x);
     let inFrac;
-    if(d){ inFrac = fracOf(d); sources[state.txDecisions[t.id]?"tx":(t.g!=null&&state.groupDecisions[t.g])?"group":"payee"]++; }
-    else { inFrac = (state.alloc[t.catKey] ?? 50)/100; sources.slider++; }
-    Si += t.a*inFrac; So += t.a*(1-inFrac);
-    agg.inAmt += t.a*inFrac;
+    if(d){ inFrac = fracOf(d); sources[state.txDecisions[x.id]?"tx":(x.g!=null&&state.groupDecisions[x.g])?"group":"payee"]++; }
+    else { inFrac = (state.alloc[x.catKey] ?? 50)/100; sources.slider++; }
+    Si += x.a*inFrac; So += x.a*(1-inFrac);
+    agg.inAmt += x.a*inFrac;
   }
   const cashExp = totalExp - depExcluded;
   const adjIncome = Ro + Ri*(1-beta);
   const adjLoss   = So + Si*(1-alpha);
-  const balance   = Ro + Si*alpha - So;     // 地域還流バランス
+  const balance   = Ro + Si*alpha - So;
   const circulation = cashExp>0 ? Si/cashExp : 0;
   return {region, alpha, beta, pRate, depMode, incomeTotal, Ro, Ri, Si, So, totalExp, depExcluded, cashExp,
     adjIncome, adjLoss, balance, circulation, catAgg, sources};
@@ -841,7 +1140,12 @@ function gaugeHTML(inVal, outVal, inLabel, outLabel){
   return `<div class="gauge"><div class="gaugeBar">
     <div class="gIn" style="width:${ip}%">${ip>=14? inLabel+" "+ip.toFixed(0)+"%":""}</div>
     <div class="gOut" style="width:${op}%">${op>=14? outLabel+" "+op.toFixed(0)+"%":""}</div>
-  </div><div class="cap">${inLabel}: ${fmt(inVal)}円 ／ ${outLabel}: ${fmt(outVal)}円</div></div>`;
+  </div><div class="cap">${inLabel}: ${yen(inVal)} ／ ${outLabel}: ${yen(outVal)}</div></div>`;
+}
+
+function decisionWord(kubun, d){
+  if(kubun==="inc") return d==="in" ? t("incFrom") : t("incOut");
+  return d==="in" ? t("decIn") : d==="partial" ? t("decPartial") : t("decExt");
 }
 
 function generateReport(){
@@ -849,16 +1153,16 @@ function generateReport(){
   const rep = document.getElementById("report");
   if(!state.txs.length){
     rep.style.display="block";
-    rep.innerHTML = `<div class="warn-note">まだ取引データがありません。ステップ1でCSVを読み込んでくださいね。</div>`;
+    rep.innerHTML = `<div class="warn-note">${t("noData")}</div>`;
     return;
   }
   const year = document.getElementById("yearLabel").value || "";
   const owner = document.getElementById("ownerName").value || "";
 
   const catRows = Object.values(r.catAgg).sort((a,b)=>b.amt-a.amt).map(c=>{
-    if(c.excluded) return `<tr><th>${esc(c.name)}</th><td class="num">${fmt(c.amt)}</td><td class="num" colspan="2" style="color:#999">対象外（お金の動きなし）</td></tr>`;
+    if(c.excluded) return `<tr><th>${esc(c.name)}</th><td class="num">${fmt(c.amt)}</td><td class="num" colspan="2" style="color:#999">${t("rExcluded")}</td></tr>`;
     const pct = c.amt>0 ? (c.inAmt/c.amt*100).toFixed(0) : 0;
-    return `<tr><th>${esc(c.name)}　<span style="color:#46a">地域内 ${pct}%</span></th>
+    return `<tr><th>${esc(c.name)}　<span style="color:#46a">${t("rCatIn")(pct)}</span></th>
       <td class="num">${fmt(c.amt)}</td>
       <td class="num" style="color:var(--blue-deep)">${fmt(c.inAmt)}</td>
       <td class="num" style="color:var(--orange)">${fmt(c.amt-c.inAmt)}</td></tr>`;
@@ -867,15 +1171,13 @@ function generateReport(){
   const decidedGroups = state.groups.filter(g=>state.groupDecisions[g.id]);
   const groupRows = decidedGroups.map(g=>{
     const d = state.groupDecisions[g.id];
-    const lab = g.kubun==="inc" ? (d==="in"?"地域の中から":"地域の外から") : (CAND_LABELS[d]||d).replace("候補","");
-    return `<tr><th class="small">${g.kubun==="inc"?"収入":"支出"}｜${esc(g.label)}（${g.count}回）</th><td class="num small">${fmt(g.total)} 円</td><td class="small">${lab}</td></tr>`;
+    return `<tr><th class="small">${g.kubun==="inc"?t("inc"):t("exp")}｜${esc(groupLabel(g))}${t("rTimes")(g.count)}</th><td class="num small">${yen(g.total)}</td><td class="small">${decisionWord(g.kubun, d)}</td></tr>`;
   }).join("");
 
   const bigRows = Object.entries(state.txDecisions).map(([id,d])=>{
-    const t = state.txs.find(t=>t.id===+id);
-    if(!t) return "";
-    const lab = t.kubun==="inc" ? (d==="in"?"地域の中から":"地域の外から") : (CAND_LABELS[d]||d).replace("候補","");
-    return `<tr><th class="small">${t.kubun==="inc"?"収入":"支出"}｜${esc(t.date)}　${esc(t.catName)}${t.p||t.mm?`　${esc(t.p||t.mm)}`:""}</th><td class="num small">${fmt(t.a)} 円</td><td class="small">${lab}</td></tr>`;
+    const x = state.txs.find(x=>x.id===+id);
+    if(!x) return "";
+    return `<tr><th class="small">${x.kubun==="inc"?t("inc"):t("exp")}｜${esc(x.date)}　${esc(catLabel(x.catKey, x.catName))}${x.p||x.mm?`　${esc(x.p||x.mm)}`:""}</th><td class="num small">${yen(x.a)}</td><td class="small">${decisionWord(x.kubun, d)}</td></tr>`;
   }).join("");
 
   const s = r.sources;
@@ -886,57 +1188,57 @@ function generateReport(){
   <div class="sheet" id="sheetBody">
     <div class="formhead">
       <div>
-        <div class="era">${esc(year)}${year?"の":""} 経済循環の セルフレポート</div>
-        <h3>ローカリズム確定申告書</h3>
+        <div class="era">${esc(t("rEra")(year))}</div>
+        <h3>${t("rTitle")}</h3>
       </div>
       <span class="fa">${owner?esc(owner)+" ｜ ":""}${esc(r.region)}</span>
     </div>
-    <div class="stance">この書類はあなたの経済活動を採点するものではありません。お金の流れを見えるようにして、地域との関係を読みなおすためのものです。税務署に提出する書類でもありません。</div>
+    <div class="stance">${t("rStance")}</div>
 
     <div class="bigScore">
-      <div class="scoreCard"><div class="t">地域内循環率</div><div class="v">${(r.circulation*100).toFixed(1)}<span style="font-size:14px">%</span></div><div class="u">支出のうち${esc(r.region)}の中に向かった割合</div></div>
-      <div class="scoreCard"><div class="t">外貨獲得額</div><div class="v">${fmt(r.Ro)}</div><div class="u">地域の外から連れてきたお金（円）</div></div>
-      <div class="scoreCard"><div class="t">域外流出額</div><div class="v">${fmt(r.So)}</div><div class="u">地域の外へ出ていった支出（円）</div></div>
-      <div class="scoreCard ${r.balance>=0?"":"neg"}"><div class="t">地域還流バランス</div><div class="v">${fmt(r.balance)}</div><div class="u">外貨獲得 ＋ 地域内支出の残留分 − 域外流出（円）</div></div>
+      <div class="scoreCard"><div class="t">${t("rCirc")}</div><div class="v">${(r.circulation*100).toFixed(1)}<span style="font-size:14px">%</span></div><div class="u">${t("rCircU")(esc(r.region))}</div></div>
+      <div class="scoreCard"><div class="t">${t("rRo")}</div><div class="v">${fmt(r.Ro)}</div><div class="u">${t("rRoU")}</div></div>
+      <div class="scoreCard"><div class="t">${t("rSo")}</div><div class="v">${fmt(r.So)}</div><div class="u">${t("rSoU")}</div></div>
+      <div class="scoreCard ${r.balance>=0?"":"neg"}"><div class="t">${t("rBal")}</div><div class="v">${fmt(r.balance)}</div><div class="u">${t("rBalU")}</div></div>
       <div class="stamp">LOCALISM<br>TAX RETURN<br>${esc(r.region)}</div>
     </div>
 
-    <h4 class="sec">収入 ─ そのお金はどこから来たか</h4>
+    <h4 class="sec">${t("rS1")}</h4>
     <table class="form">
-      <tr><th>収入の合計</th><td class="num">${fmt(r.incomeTotal)} 円</td></tr>
-      <tr><th>うち 地域の外から（観光客・域外取引・ネット販売）　<span style="font-weight:400">100%計上</span></th><td class="num" style="color:var(--blue-deep)">${fmt(r.Ro)} 円</td></tr>
-      <tr><th>うち 地域の中から　<span style="font-weight:400">${(100-r.beta*100).toFixed(0)}%だけ計上</span></th><td class="num">${fmt(r.Ri)} 円 → ${fmt(r.Ri*(1-r.beta))} 円</td></tr>
-      <tr><th style="background:#e4ebf9"><b>ローカリズム調整後の収入</b></th><td class="num big">${fmt(r.adjIncome)} 円</td></tr>
+      <tr><th>${t("rIncTotal")}</th><td class="num">${yen(r.incomeTotal)}</td></tr>
+      <tr><th>${t("rIncOut")}</th><td class="num" style="color:var(--blue-deep)">${yen(r.Ro)}</td></tr>
+      <tr><th>${t("rIncIn")((100-r.beta*100).toFixed(0))}</th><td class="num">${yen(r.Ri)} → ${yen(r.Ri*(1-r.beta))}</td></tr>
+      <tr><th style="background:#e4ebf9"><b>${t("rAdjInc")}</b></th><td class="num big">${yen(r.adjIncome)}</td></tr>
     </table>
-    ${gaugeHTML(r.Ro, r.Ri, "地域の外から（外貨）", "地域の中から")}
+    ${gaugeHTML(r.Ro, r.Ri, t("rGaugeOut"), t("rGaugeIn"))}
 
-    <h4 class="sec">支出 ─ そのお金はどこへ行ったか</h4>
+    <h4 class="sec">${t("rS2")}</h4>
     <table class="form">
-      <tr style="background:#eef1f9"><th style="width:46%">科目</th><td style="text-align:right;font-size:12px">金額</td><td style="text-align:right;font-size:12px;color:var(--blue-deep)">地域内へ</td><td style="text-align:right;font-size:12px;color:var(--orange)">地域外へ</td></tr>
+      <tr style="background:#eef1f9"><th style="width:46%">${t("rCat")}</th><td style="text-align:right;font-size:12px">${t("rAmt")}</td><td style="text-align:right;font-size:12px;color:var(--blue-deep)">${t("rToIn")}</td><td style="text-align:right;font-size:12px;color:var(--orange)">${t("rToOut")}</td></tr>
       ${catRows}
-      <tr><th><b>支出合計</b>${r.depExcluded>0?`（うち${fmt(r.depExcluded)}円は減価償却費として対象外）`:""}</th><td class="num">${fmt(r.totalExp)}</td><td class="num" style="color:var(--blue-deep)">${fmt(r.Si)}</td><td class="num" style="color:var(--orange)">${fmt(r.So)}</td></tr>
-      <tr><th>地域内への支払いは ${(r.alpha*100).toFixed(0)}% 残るとみなすと、流出はこれだけ</th><td class="num" colspan="3">${fmt(r.Si)} 円 → ${fmt(r.Si*(1-r.alpha))} 円</td></tr>
-      <tr><th style="background:#e4ebf9"><b>ローカリズム調整後の流出</b></th><td class="num big" colspan="3">${fmt(r.adjLoss)} 円</td></tr>
+      <tr><th><b>${t("rExpTotal")}</b>${r.depExcluded>0?t("rDepNote")(fmt(r.depExcluded)):""}</th><td class="num">${fmt(r.totalExp)}</td><td class="num" style="color:var(--blue-deep)">${fmt(r.Si)}</td><td class="num" style="color:var(--orange)">${fmt(r.So)}</td></tr>
+      <tr><th>${t("rAlphaRow")((r.alpha*100).toFixed(0))}</th><td class="num" colspan="3">${yen(r.Si)} → ${yen(r.Si*(1-r.alpha))}</td></tr>
+      <tr><th style="background:#e4ebf9"><b>${t("rAdjLoss")}</b></th><td class="num big" colspan="3">${yen(r.adjLoss)}</td></tr>
     </table>
-    ${gaugeHTML(r.Si, r.So, "地域内へ", "地域外・チェーンへ")}
+    ${gaugeHTML(r.Si, r.So, t("rGauge2In"), t("rGauge2Out"))}
 
-    ${decidedGroups.length ? `<h4 class="sec">毎月の取引（継続取引）の内訳</h4>
+    ${decidedGroups.length ? `<h4 class="sec">${t("rS3")}</h4>
     <table class="form">${groupRows}</table>` : ""}
 
-    ${bigRows ? `<h4 class="sec">個別に確認した大きな取引</h4>
+    ${bigRows ? `<h4 class="sec">${t("rS4")}</h4>
     <table class="form">${bigRows}</table>` : ""}
 
-    <h4 class="sec">まとめ</h4>
+    <h4 class="sec">${t("rS5")}</h4>
     <table class="form">
-      <tr><th>ローカリズム調整後の収入 − 調整後の流出</th><td class="num">${fmt(r.adjIncome - r.adjLoss)} 円</td></tr>
-      <tr><th style="background:#e4ebf9"><b>地域還流バランス</b>（外貨 ${fmt(r.Ro)} ＋ 地域内残留 ${fmt(r.Si*r.alpha)} − 域外流出 ${fmt(r.So)}）</th><td class="num big" style="color:${r.balance>=0?"var(--blue-deep)":"var(--orange)"}">${fmt(r.balance)} 円</td></tr>
+      <tr><th>${t("rSummary1")}</th><td class="num">${yen(r.adjIncome - r.adjLoss)}</td></tr>
+      <tr><th style="background:#e4ebf9">${t("rBalRow")(fmt(r.Ro), fmt(r.Si*r.alpha), fmt(r.So))}</th><td class="num big" style="color:${r.balance>=0?"var(--blue-deep)":"var(--orange)"}">${yen(r.balance)}</td></tr>
     </table>
 
     <div class="foot">
-      ◎ 判定の内訳：継続取引で ${s.group}件、取引先名で ${s.payee}件、個別確認で ${s.tx}件を判定（計${decidedCount}件）。のこり ${s.slider}件は科目ごとの推定値です。<br>
-      ◎ 計算のしかた：地域内への支払いは地域の中で再びめぐるため、流出としては ${(r.alpha*100).toFixed(0)}% 差し引いて数えています。地域内からの収入は ${(r.beta*100).toFixed(0)}% 差し引き。「一部地域内」は ${(r.pRate*100).toFixed(0)}% を地域内あつかい。${r.depMode==="exclude"?"減価償却費はお金の動きがないため流出に含めていません。":""}<br>
-      ◎ この考え方は、お金が地域内をめぐる回数を測る指標 LM3（Local Multiplier 3, New Economics Foundation）の思想にもとづく簡易版です。<br>
-      ※ この書類は地域との関係を読みなおすためのセルフレポートであり、税務署に出すものではありません。
+      ${t("rFoot1")(s.group, s.payee, s.tx, decidedCount, s.slider)}<br>
+      ${t("rFoot2")((r.alpha*100).toFixed(0), (r.beta*100).toFixed(0), (r.pRate*100).toFixed(0), r.depMode==="exclude")}<br>
+      ${t("rFoot3")}<br>
+      ${t("rFoot4")}
     </div>
   </div>`;
   saveState();
@@ -947,11 +1249,11 @@ function downloadReport(){
   const body = document.getElementById("sheetBody");
   if(!body) return;
   const css = document.querySelector("style").textContent;
-  const html = `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>ローカリズム確定申告書</title><link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet"><style>${css} body{background:#fff;padding:20px}</style></head><body>${body.outerHTML}</body></html>`;
+  const html = `<!DOCTYPE html><html lang="${LANG}"><head><meta charset="UTF-8"><title>${LANG==="ja"?"ローカリズム確定申告書":"Localism Tax Return"}</title><link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet"><style>${css} body{background:#fff;padding:20px}</style></head><body>${body.outerHTML}</body></html>`;
   const blob = new Blob([html], {type:"text/html"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "ローカリズム確定申告書.html";
+  a.download = LANG==="ja" ? "ローカリズム確定申告書.html" : "localism-tax-return.html";
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -962,7 +1264,7 @@ function saveStateDebounced(){ clearTimeout(saveTimer); saveTimer = setTimeout(s
 function saveState(){
   if(!state.persist){ return; }
   const data = {
-    txs: state.txs, groups: state.groups,
+    txs: state.txs,
     groupDecisions: state.groupDecisions, payeeDecisions: state.payeeDecisions, txDecisions: state.txDecisions,
     alloc: state.alloc, incomeOutsideRatio: state.incomeOutsideRatio,
     yearLabel: document.getElementById("yearLabel").value,
@@ -980,7 +1282,7 @@ function loadState(){
   try{
     const d = JSON.parse(localStorage.getItem("localism-return-v4"));
     if(!d) { initRegionKeywords(); return; }
-    state.txs = d.txs||[]; state.groups = d.groups||[];
+    state.txs = d.txs||[];
     state.groupDecisions = d.groupDecisions||{}; state.payeeDecisions = d.payeeDecisions||{}; state.txDecisions = d.txDecisions||{};
     state.alloc = d.alloc||{}; state.incomeOutsideRatio = d.incomeOutsideRatio ?? 70;
     document.getElementById("yearLabel").value = d.yearLabel||"";
@@ -996,9 +1298,10 @@ function loadState(){
     document.getElementById("partialVal").textContent = d.partialRate||30;
     if(d.depMode) document.querySelector(`input[name=depMode][value=${d.depMode}]`).checked = true;
     if(state.txs.length){
+      detectRecurring(); // グループは保存せず、毎回同じアルゴリズムで再構築（IDは決定的）
       const sum = document.getElementById("csvSummary");
       sum.style.display = "block";
-      sum.innerHTML = "前回読み込んだ取引データを覚えています。新しいCSVを入れると上書きされます。";
+      sum.innerHTML = t("csvRemember");
     }
   }catch(e){ console.warn("state load failed", e); initRegionKeywords(); }
 }
@@ -1017,12 +1320,13 @@ document.getElementById("persistChk").addEventListener("change", e=>{
   else saveState();
 });
 document.getElementById("wipeBtn").addEventListener("click", ()=>{
-  if(!confirm("このブラウザに保存されたデータ（明細・振り分けの答え・設定）をすべて削除します。よろしいですか？")) return;
+  if(!confirm(t("wipeConfirm"))) return;
   localStorage.removeItem("localism-return-v4");
   localStorage.removeItem("localism-return");
   location.reload();
 });
 document.querySelectorAll("#panel1 input[type=text], #panel1 textarea").forEach(el=>el.addEventListener("input", saveStateDebounced));
+applyLang();
 loadState();
 </script>
 </body>
